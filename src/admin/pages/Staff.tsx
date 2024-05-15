@@ -160,7 +160,7 @@ const Staff = () => {
 
   return (
     <div className="h-screen ">
-      <h1 className="text-[4rem] font-bold">STAFFS</h1>
+      <h1 className="text-[4rem] font-bold">STAFFS REGISTRATION</h1>
 
       {showReauth && (
         <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
@@ -195,8 +195,8 @@ const Staff = () => {
         </div>
       )}
 
-      <div className="mt-[2rem] flex h-screen items-center gap-4">
-        <div className="h-full w-[20rem] rounded-lg border-2 bg-white p-2">
+      <div className="mt-[2rem] flex h-fit gap-4  ">
+        <div className="h-full w-[20rem] rounded-lg border-2 p-2 text-center">
           <h1 className="my-2 text-2xl font-bold ">CREATE STAFF ACCOUNT</h1>
           <form
             onSubmit={handleSubmit}

@@ -139,9 +139,14 @@ export default function Resto() {
         </div>
 
         <div className="mt-[rem] w-full">
-          <Button className="my-[2rem]" onClick={() => setShowOrderForm(true)}>
-            Add Order
-          </Button>
+          <div className="flex justify-end">
+            <Button
+              className="my-[2rem] h-[3.5rem]  text-2xl font-bold text-white"
+              onClick={() => setShowOrderForm(true)}
+            >
+              Add Order
+            </Button>
+          </div>
 
           <div className="mt-[1rem] w-full">
             <Table className="mx-auto w-[100%] border-2 bg-white">

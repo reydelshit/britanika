@@ -126,11 +126,13 @@ export default function AddCartStaff({
   };
 
   return (
-    <div className="z-50 ml-[-10rem] flex h-fit w-[30%] flex-col items-center justify-center border-2 bg-white text-center">
+    <div className="z-50 ml-[-10rem] flex h-fit w-[30%] flex-col items-center justify-center rounded-lg border-2 bg-white text-center">
       <div className="flex w-full flex-col items-center gap-[1rem] p-2">
         <form className="w-full px-4 text-start" onSubmit={handleSubmit}>
           <div className=" w-full text-start">
-            <Label className="mb-2">Carts</Label>
+            <Label className="my-4 block text-2xl font-semibold">
+              Carts Form
+            </Label>
 
             <Select required value={selectedCart} onValueChange={handleCart}>
               <SelectTrigger className="h-[5rem]">

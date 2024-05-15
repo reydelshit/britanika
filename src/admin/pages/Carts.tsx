@@ -87,7 +87,7 @@ const Carts = () => {
                     {cart.availability_status}
                   </span>
                 </div>
-                <h1 className="my-2 font-semibold">Price: {cart.price}</h1>
+                <h1 className="my-2 font-semibold">Price: ₱{cart.price}</h1>
                 <div className="flex w-full justify-between gap-2">
                   <Button
                     onClick={() =>

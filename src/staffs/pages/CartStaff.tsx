@@ -33,8 +33,6 @@ type Carts = {
 };
 
 export default function CartStaff() {
-  const [showOrderForm, setShowOrderForm] = useState(false);
-
   const [cartOrders, setCartOrders] = useState<OrderCarts[]>([]);
 
   const [carts, setCarts] = useState<Carts[]>([]);
@@ -63,8 +61,8 @@ export default function CartStaff() {
 
   return (
     <div className="flex w-full justify-between border-2">
-      {showOrderForm && (
-        <div className="absolute flex h-full w-full items-center justify-center bg-white bg-opacity-80">
+      {showCartForm && (
+        <div className="absolute flex h-full w-full items-center justify-center  bg-white bg-opacity-80">
           <AddCartStaff setShowCartForm={setShowCartForm} />
         </div>
       )}
@@ -101,9 +99,14 @@ export default function CartStaff() {
         </div>
 
         <div className="mt-[rem] w-full">
-          <Button className="my-[1rem]" onClick={() => setShowOrderForm(true)}>
-            Add Customer
-          </Button>
+          <div className="flex justify-end">
+            <Button
+              className="my-[2rem] h-[3.5rem]  text-2xl font-bold text-white"
+              onClick={() => setShowCartForm(true)}
+            >
+              Add Customer
+            </Button>
+          </div>
 
           <div className="mt-[1rem] w-full">
             <Table className="mx-auto w-[100%] border-2 bg-white">

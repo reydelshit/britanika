@@ -127,7 +127,9 @@ export default function AddOrder({
       <div className="flex w-full flex-col items-center gap-[1rem] p-2">
         <form className="w-full px-4 text-start" onSubmit={handleSubmit}>
           <div className=" w-full text-start">
-            <Label className="mb-2">Dishes</Label>
+            <Label className="my-4 block text-2xl font-semibold">
+              Dishes Form
+            </Label>
 
             <Select required value={selectedDish} onValueChange={handleDish}>
               <SelectTrigger className="h-[5rem]">

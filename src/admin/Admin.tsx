@@ -7,7 +7,7 @@ type Dishes = {
   dish_id: number;
   dish_name: string;
   dish_image: string;
-  price: number;
+  dish_price: number;
   availability_status: string;
 };
 
@@ -63,7 +63,7 @@ const Admin = () => {
         </div>
       )}
       <div>
-        <h1 className="text-[4rem] font-bold">POPULAR DISHES</h1>
+        <h1 className="text-[4rem] font-bold">AVAILABLE DISHES</h1>
 
         <div className="grid grid-cols-4 gap-4">
           {dishes &&
@@ -86,7 +86,9 @@ const Admin = () => {
                     {dish.availability_status}
                   </span>
                 </div>
-                <h1 className="my-2 font-semibold">Price: {dish.price}</h1>
+                <h1 className="my-2 font-semibold">
+                  Price: ₱{dish.dish_price}
+                </h1>
                 <div className="flex w-full justify-between gap-2">
                   <Button
                     onClick={() =>
