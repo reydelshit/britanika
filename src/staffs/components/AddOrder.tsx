@@ -32,6 +32,7 @@ export default function AddOrder({
   setShowOrderForm: (value: boolean) => void;
 }) {
   const [orders, setOrders] = useState([]);
+
   const { toast } = useToast();
   const [error, setError] = useState('' as string);
   const [selectedDish, setSelectedDish] = useState('' as string);
@@ -98,7 +99,7 @@ export default function AddOrder({
     console.log(orders);
 
     axios
-      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/orders.php`, {
+      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order.php`, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -30,6 +30,16 @@ type Orders = {
   status: string;
 };
 
+type Order = {
+  order_id: string;
+  order_customer_name: string;
+  amount: number;
+  created_at: Date;
+  status: string;
+  dish_id: string;
+  quantity: number;
+};
+
 export default function StaffMain() {
   const accountType = localStorage.getItem('type');
   const currentPath = useLocation().pathname;
@@ -37,6 +47,7 @@ export default function StaffMain() {
   const [dishes, setDishes] = useState<Dishes[]>([]);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [orders, setOrders] = useState<Orders[]>([]);
+  const [allOrders, setAllOrders] = useState<Order[]>([]);
 
   const getALlDishes = () => {
     axios
@@ -46,8 +57,18 @@ export default function StaffMain() {
       });
   };
 
+  const getALlOrders = () => {
+    axios
+      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order.php`)
+      .then((res) => {
+        setAllOrders(res.data);
+        console.log(res.data);
+      });
+  };
+
   useEffect(() => {
     getALlDishes();
+    getALlOrders();
   }, []);
 
   return (
@@ -99,13 +120,15 @@ export default function StaffMain() {
                   <TableHead className="text-center">ID</TableHead>
                   <TableHead className="text-center">Customer Name</TableHead>
                   <TableHead className="text-center">Amount</TableHead>
+                  <TableHead className="text-center">Quantity</TableHead>
+
                   <TableHead className="text-center">Date Created</TableHead>
                   <TableHead className="text-center">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {orders.length > 0 ? (
-                  orders.map((ord, index) => (
+                {allOrders.length > 0 ? (
+                  allOrders.map((ord, index) => (
                     <TableRow key={index}>
                       <TableCell className="text-center">
                         {ord.order_id}
@@ -115,9 +138,12 @@ export default function StaffMain() {
                       </TableCell>
 
                       <TableCell className="text-center">
-                        {ord.amount}
+                        ₱{ord.amount}
                       </TableCell>
 
+                      <TableCell className="text-center">
+                        {ord.quantity}
+                      </TableCell>
                       <TableCell className="text-center">
                         {moment(ord.created_at).format('LL')}
                       </TableCell>
