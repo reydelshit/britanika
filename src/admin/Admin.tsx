@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
-import React, { useEffect, useState } from 'react';
-import AddDish from './components/AddDish';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import AddDish from './components/AddDish';
 
 type Dishes = {
   dish_id: number;
@@ -35,6 +35,19 @@ const Admin = () => {
         if (res.data.status === 'success') {
           getALlDishes();
         }
+      });
+  };
+
+  const handleChangeStatus = (id: number, availability: string) => {
+    axios
+      .put(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/dish.php`, {
+        dish_id: id,
+        availability_status:
+          availability === 'Available' ? 'Not Available' : 'Available',
+      })
+      .then((res) => {
+        console.log(res.data);
+        getALlDishes();
       });
   };
 
@@ -75,7 +88,12 @@ const Admin = () => {
                 </div>
                 <h1 className="my-2 font-semibold">Price: {dish.price}</h1>
                 <div className="flex w-full justify-between gap-2">
-                  <Button className="uppercase">
+                  <Button
+                    onClick={() =>
+                      handleChangeStatus(dish.dish_id, dish.availability_status)
+                    }
+                    className="uppercase"
+                  >
                     SET{' '}
                     {dish.availability_status === 'Available'
                       ? 'Not Available'

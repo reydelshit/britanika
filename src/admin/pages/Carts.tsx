@@ -39,6 +39,19 @@ const Carts = () => {
       });
   };
 
+  const handleChangeStatus = (id: number, availability: string) => {
+    axios
+      .put(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`, {
+        cart_id: id,
+        availability_status:
+          availability === 'Available' ? 'Not Available' : 'Available',
+      })
+      .then((res) => {
+        console.log(res.data);
+        getALlCarts();
+      });
+  };
+
   useEffect(() => {
     getALlCarts();
   }, []);
@@ -76,7 +89,12 @@ const Carts = () => {
                 </div>
                 <h1 className="my-2 font-semibold">Price: {cart.price}</h1>
                 <div className="flex w-full justify-between gap-2">
-                  <Button className="uppercase">
+                  <Button
+                    onClick={() =>
+                      handleChangeStatus(cart.cart_id, cart.availability_status)
+                    }
+                    className="uppercase"
+                  >
                     SET{' '}
                     {cart.availability_status === 'Available'
                       ? 'Not Available'

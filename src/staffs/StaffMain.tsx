@@ -18,7 +18,7 @@ type Dishes = {
   dish_id: number;
   dish_name: string;
   dish_image: string;
-  price: number;
+  dish_price: number;
   availability_status: string;
 };
 
@@ -80,7 +80,7 @@ export default function StaffMain() {
       )}
 
       <div>
-        <h1 className="text-[4rem] font-bold">POPULAR DISHES</h1>
+        <h1 className="text-[4rem] font-bold">ORDER DISHES SECTION</h1>
 
         <div className="grid grid-cols-4 gap-4">
           {dishes &&
@@ -104,17 +104,21 @@ export default function StaffMain() {
                       {dish.availability_status}
                     </span>
                   </div>
-                  <h1 className="my-2 font-semibold">Price: {dish.price}</h1>
+                  <h1 className="my-2 font-semibold">
+                    Price: ₱ {dish.dish_price}
+                  </h1>
                 </div>
               ))
               .slice(0, 4)}
         </div>
 
-        <div className="mt-[2rem] w-full">
-          <Button onClick={() => setShowOrderForm(true)}>Add Order</Button>
+        <div className="mt-[rem] w-full">
+          <Button className="my-[2rem]" onClick={() => setShowOrderForm(true)}>
+            Add Order
+          </Button>
 
-          <div className="w-full">
-            <Table className="mx-auto w-[80%] border-2 bg-white">
+          <div className="mt-[1rem] w-full">
+            <Table className="mx-auto w-[100%] border-2 bg-white">
               <TableHeader>
                 <TableRow>
                   <TableHead className="text-center">ID</TableHead>
