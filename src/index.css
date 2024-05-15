@@ -12,6 +12,14 @@ body {
   overflow-x: hidden;
 }
 
+/* hide button in print  */
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

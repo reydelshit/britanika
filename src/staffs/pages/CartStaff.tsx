@@ -14,22 +14,6 @@ import {
 import moment from 'moment';
 import AddCartStaff from '../components/AddCartStaff';
 
-type Dishes = {
-  dish_id: number;
-  dish_name: string;
-  dish_image: string;
-  dish_price: number;
-  availability_status: string;
-};
-
-type Orders = {
-  order_id: number;
-  order_customer_name: string;
-  amount: number;
-  created_at: string;
-  status: string;
-};
-
 type OrderCarts = {
   order_cart_id: string;
   customer_name: string;

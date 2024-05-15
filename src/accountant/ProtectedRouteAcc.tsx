@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
 
-export default function ProtectedStaff({ children }: any) {
+export default function ProtectedRouteAcc({ children }: any) {
   if (
-    localStorage.getItem('type') === 'accountants' ||
+    localStorage.getItem('type') === 'staff' ||
     localStorage.getItem('type') === 'admin'
   ) {
     localStorage.removeItem('user_id_britanika');

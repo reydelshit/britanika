@@ -2,7 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import CartStaff from './pages/CartStaff';
 import Resto from './pages/Resto';
-import StaffMain from './StaffMain';
+import StaffMain from './pages/Resto';
+import Dashboard from './Dashboard';
 
 export default function StaffRoute() {
   const accountType = localStorage.getItem('type');
@@ -20,6 +21,19 @@ export default function StaffRoute() {
           }`}
         >
           <Link className="flex" to="/staff">
+            {/* <RistaffLine className="h-[1.5rem] w-[2rem]" /> */}
+            DASHBOARD
+          </Link>
+        </Button>
+        <Button
+          onClick={() => console.log(currentPath)}
+          className={`mb-2 flex h-[4rem] w-full gap-2 border-2 p-1 text-2xl font-bold ${
+            currentPath == '/staff/resto'
+              ? ' rounded-md bg-blue-500 text-start text-white'
+              : ''
+          }`}
+        >
+          <Link className="flex" to="/staff/resto">
             {/* <RistaffLine className="h-[1.5rem] w-[2rem]" /> */}
             RESTO
           </Link>
@@ -39,7 +53,7 @@ export default function StaffRoute() {
       </div>
       <div className="w-full justify-center px-4">
         <Routes>
-          <Route path="/" index element={<StaffMain />} />
+          <Route path="/" index element={<Dashboard />} />
           <Route path="/resto" element={<Resto />} />
           <Route path="/carts" element={<CartStaff />} />
         </Routes>
