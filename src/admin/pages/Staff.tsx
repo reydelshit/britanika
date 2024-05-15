@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Table,
   TableBody,
@@ -15,6 +14,7 @@ import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 type LocationType = {
   barangay_name: string;
   created_at: string;
@@ -37,10 +37,9 @@ const Staff = () => {
     password: '',
   });
 
-  const user_id = localStorage.getItem('ordering-token');
+  const user_id = localStorage.getItem('user_id_britanika');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
-  const [searchLocation, setSearchLocation] = useState('' as string);
+
   const { toast } = useToast();
   const [staff, setstaff] = useState<staffType[]>([]);
   const [showReauth, setShowReauth] = useState(false);
@@ -48,7 +47,7 @@ const Staff = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState('');
   const [showPasswordIndex, setShowPasswordIndex] = useState(-1);
-  const reauthToken = localStorage.getItem('ordering_reauth') as string;
+  const reauthToken = localStorage.getItem('britanika_reauth') as string;
   const getPasswordDisplay = (
     stringText: string,
     index: number,
@@ -135,7 +134,7 @@ const Staff = () => {
       .then((res) => {
         console.log(res.data);
         if (res.data.length > 0) {
-          localStorage.setItem('ordering_reauth', '1');
+          localStorage.setItem('britanika_reauth', '1');
 
           window.location.reload();
 
@@ -272,24 +271,30 @@ const Staff = () => {
                       {staff.username}
                     </TableCell>
 
-                    <TableCell className="text-center">
-                      {getPasswordDisplay(
-                        staff.password,
-                        index,
-                        showPasswordIndex === index,
-                      )}{' '}
-                      <Button
-                        onClick={
-                          parseInt(reauthToken) === 0
-                            ? reAuthenticate
-                            : () =>
-                                setShowPasswordIndex(
-                                  index === showPasswordIndex ? -1 : index,
-                                )
-                        }
-                      >
-                        {showPassword ? 'Hide' : 'Show'}
-                      </Button>
+                    <TableCell>
+                      <div className="flex w-full items-center justify-center text-center">
+                        {getPasswordDisplay(
+                          staff.password,
+                          index,
+                          showPasswordIndex === index,
+                        )}{' '}
+                        <span
+                          onClick={
+                            parseInt(reauthToken) === 0
+                              ? reAuthenticate
+                              : () =>
+                                  setShowPasswordIndex(
+                                    index === showPasswordIndex ? -1 : index,
+                                  )
+                          }
+                        >
+                          {showPassword ? (
+                            <AiOutlineEyeInvisible className="cursor-pointer text-[1.5rem]" />
+                          ) : (
+                            <AiOutlineEye className="cursor-pointer text-[1.5rem]" />
+                          )}
+                        </span>
+                      </div>
                     </TableCell>
                     <TableCell className="text-center">
                       {moment(staff.created_at).format('LL')}
