@@ -4,7 +4,7 @@ import AddDish from './components/AddDish';
 import axios from 'axios';
 
 type Dishes = {
-  id: number;
+  dish_id: number;
   dish_name: string;
   dish_image: string;
   price: number;
@@ -20,6 +20,21 @@ const Admin = () => {
       .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/dish.php`)
       .then((res) => {
         setDishes(res.data);
+      });
+  };
+
+  const handleDelete = (id: number) => {
+    axios
+      .delete(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/dish.php`, {
+        data: {
+          dish_id: id,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.status === 'success') {
+          getALlDishes();
+        }
       });
   };
 
@@ -66,7 +81,9 @@ const Admin = () => {
                       ? 'Not Available'
                       : 'Available'}
                   </Button>
-                  <Button>DELETE</Button>
+                  <Button onClick={() => handleDelete(dish.dish_id)}>
+                    DELETE
+                  </Button>
                 </div>
               </div>
             ))}

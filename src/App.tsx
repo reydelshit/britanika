@@ -3,6 +3,7 @@ import AdminRoutes from './admin/AdminRoutes';
 import ProtectedRoute from './admin/ProtectedRoute';
 import { Toaster } from './components/ui/toaster';
 import { Button } from './components/ui/button';
+import StaffRoute from './staffs/StaffRoute';
 
 function App() {
   const logout = () => {
@@ -12,6 +13,14 @@ function App() {
   return (
     <div className="flex h-dvh w-dvw  flex-col items-center justify-center">
       <Routes>
+        <Route
+          path="/staff/*"
+          element={
+            <ProtectedRoute>
+              <StaffRoute />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/admin"
           element={

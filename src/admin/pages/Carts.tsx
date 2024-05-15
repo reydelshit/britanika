@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import AddCart from '../components/AddCart';
 
 type Carts = {
-  id: number;
+  cart_id: number;
   cart_number: string;
   type: string;
   color: string;
@@ -21,6 +21,21 @@ const Carts = () => {
       .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`)
       .then((res) => {
         setCarts(res.data);
+      });
+  };
+
+  const handleDelete = (id: number) => {
+    axios
+      .delete(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`, {
+        data: {
+          dish_id: id,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.status === 'success') {
+          getALlCarts();
+        }
       });
   };
 
@@ -67,7 +82,9 @@ const Carts = () => {
                       ? 'Not Available'
                       : 'Available'}
                   </Button>
-                  <Button>DELETE</Button>
+                  <Button onClick={() => handleDelete(cart.cart_id)}>
+                    DELETE
+                  </Button>
                 </div>
               </div>
             ))}

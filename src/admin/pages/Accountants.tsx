@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Table,
   TableBody,
@@ -21,7 +20,7 @@ type LocationType = {
   location_id: number;
 };
 
-type staffType = {
+type accountantType = {
   user_id: number;
   account_type: string;
   username: string;
@@ -29,7 +28,7 @@ type staffType = {
   created_at: string;
 };
 
-const Staff = () => {
+const Accountants = () => {
   const [locations, setLocations] = useState<LocationType[]>([]);
   const [barangay, setBarangay] = useState('');
   const [user, setUser] = useState({
@@ -42,7 +41,7 @@ const Staff = () => {
   const navigate = useNavigate();
   const [searchLocation, setSearchLocation] = useState('' as string);
   const { toast } = useToast();
-  const [staff, setstaff] = useState<staffType[]>([]);
+  const [accountant, setaccountant] = useState<accountantType[]>([]);
   const [showReauth, setShowReauth] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
@@ -77,16 +76,16 @@ const Staff = () => {
     }
 
     axios
-      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/staff.php`, {
+      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/accountant.php`, {
         ...user,
-        account_type: 'staff',
+        account_type: 'accountants',
       })
       .then((res) => {
         console.log(res.data);
 
         if (res.data.status === 'success') {
           toast({
-            title: 'staff: Registered Successfully',
+            title: 'Accountant: Registered Successfully',
             description: 'You can now login to your account',
           });
 
@@ -102,12 +101,12 @@ const Staff = () => {
 
   const getUserData = () => {
     axios
-      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/staff.php`, {
-        params: { staff: true },
+      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/accountant.php`, {
+        params: { accountants: true },
       })
       .then((response) => {
-        console.log(response.data, 'staff');
-        setstaff(response.data);
+        console.log(response.data, 'accountant');
+        setaccountant(response.data);
       });
   };
 
@@ -150,7 +149,7 @@ const Staff = () => {
   const handleDelete = (id: number) => {
     console.log(id);
     axios
-      .delete(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/staff.php`, {
+      .delete(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/accountant.php`, {
         data: { user_id: id },
       })
       .then((res) => {
@@ -161,7 +160,7 @@ const Staff = () => {
 
   return (
     <div className="h-screen ">
-      <h1 className="text-[4rem] font-bold">STAFFS</h1>
+      <h1 className="text-[4rem] font-bold">ACCOUNTANTS</h1>
 
       {showReauth && (
         <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
@@ -198,7 +197,9 @@ const Staff = () => {
 
       <div className="mt-[2rem] flex h-screen items-center gap-4">
         <div className="h-full w-[20rem] rounded-lg border-2 bg-white p-2">
-          <h1 className="my-2 text-2xl font-bold ">CREATE STAFF ACCOUNT</h1>
+          <h1 className="my-2 text-2xl font-bold ">
+            CREATE ACCOUNTANT ACCOUNT
+          </h1>
           <form
             onSubmit={handleSubmit}
             className="flex w-full flex-col justify-center"
@@ -262,19 +263,19 @@ const Staff = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {staff.length > 0 ? (
-                staff.map((staff, index) => (
+              {accountant.length > 0 ? (
+                accountant.map((account, index) => (
                   <TableRow key={index}>
                     <TableCell className="text-center">
-                      {staff.user_id}
+                      {account.user_id}
                     </TableCell>
                     <TableCell className="text-center">
-                      {staff.username}
+                      {account.username}
                     </TableCell>
 
                     <TableCell className="text-center">
                       {getPasswordDisplay(
-                        staff.password,
+                        account.password,
                         index,
                         showPasswordIndex === index,
                       )}{' '}
@@ -292,11 +293,11 @@ const Staff = () => {
                       </Button>
                     </TableCell>
                     <TableCell className="text-center">
-                      {moment(staff.created_at).format('LL')}
+                      {moment(account.created_at).format('LL')}
                     </TableCell>
                     <TableCell className="text-center">
                       <Button
-                        onClick={() => handleDelete(staff.user_id)}
+                        onClick={() => handleDelete(account.user_id)}
                         className="bg-red-600"
                       >
                         Delete
@@ -307,7 +308,7 @@ const Staff = () => {
               ) : (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center">
-                    No staffs available
+                    No Accountants
                   </TableCell>
                 </TableRow>
               )}
@@ -319,4 +320,4 @@ const Staff = () => {
   );
 };
 
-export default Staff;
+export default Accountants;

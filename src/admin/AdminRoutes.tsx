@@ -1,10 +1,9 @@
+import { Button } from '@/components/ui/button';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import Admin from './Admin';
-import { RiAdminLine } from 'react-icons/ri';
-import { AiOutlineDropbox } from 'react-icons/ai';
-import { Button } from '@/components/ui/button';
 import Carts from './pages/Carts';
 import Staff from './pages/Staff';
+import Accountants from './pages/Accountants';
 
 export default function AdminRoutes() {
   const accountType = localStorage.getItem('type');
@@ -61,7 +60,7 @@ export default function AdminRoutes() {
         >
           <Link className="flex" to="/admin/accountants">
             {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
-            ACCOUNTS
+            ACCOUNTANTS
           </Link>
         </Button>
       </div>
@@ -69,7 +68,8 @@ export default function AdminRoutes() {
         <Routes>
           <Route path="/" index element={<Admin />} />
           <Route path="/carts" index element={<Carts />} />
-          <Route path="/accountants" index element={<Staff />} />
+          <Route path="/staffs" index element={<Staff />} />
+          <Route path="/accountants" index element={<Accountants />} />
         </Routes>
       </div>
     </div>
