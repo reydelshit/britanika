@@ -130,8 +130,8 @@ const AccountantMain = () => {
 
       <div className="flex justify-end gap-4 px-4">
         <Select onValueChange={handleFilterDate}>
-          <SelectTrigger className="h-[3rem] w-[15rem] bg-blue-500 text-2xl font-bold text-white">
-            <SelectValue placeholder="Dishes" />
+          <SelectTrigger className="h-[3rem] w-[15rem]  text-2xl font-bold">
+            <SelectValue placeholder="Filter" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All</SelectItem>
@@ -282,7 +282,7 @@ const AccountantMain = () => {
 
         <div className="my-[1rem] flex w-[95%] justify-end">
           <span className="block rounded-lg bg-yellow-500 p-4 font-semibold text-white">
-            TODAY DAILY SALES: ₱{' '}
+            TOTAL SALES: ₱{' '}
             {filteredCarts.reduce((acc, ord) => acc + ord.amount, 0) +
               filteredOrders
                 .filter((ord) => ord.status.toLowerCase().includes('served'))

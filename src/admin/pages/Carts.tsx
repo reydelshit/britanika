@@ -28,7 +28,7 @@ const Carts = () => {
     axios
       .delete(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`, {
         data: {
-          dish_id: id,
+          cart_id: id,
         },
       })
       .then((res) => {
