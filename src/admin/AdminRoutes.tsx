@@ -15,6 +15,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import SalesReport from './pages/SalesReport';
+import Stocks from './pages/Stocks';
+import Expense from './pages/Expense';
 
 type Notification = {
   notification_id: number;
@@ -122,6 +124,18 @@ export default function AdminRoutes() {
 
         <Button
           className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
+            currentPath == '/admin/expense'
+              ? ' rounded-md bg-blue-500 text-start text-white'
+              : ''
+          }`}
+        >
+          <Link className="flex" to="/admin/expense">
+            {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
+            EXPENSE REPORT
+          </Link>
+        </Button>
+        <Button
+          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
             currentPath == '/admin/stocks'
               ? ' rounded-md bg-blue-500 text-start text-white'
               : ''
@@ -130,19 +144,6 @@ export default function AdminRoutes() {
           <Link className="flex" to="/admin/stocks">
             {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
             STOCKS
-          </Link>
-        </Button>
-
-        <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
-            currentPath == '/admin/expense'
-              ? ' rounded-md bg-blue-500 text-start text-white'
-              : ''
-          }`}
-        >
-          <Link className="flex" to="/admin/expense">
-            {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
-            EXPENSE
           </Link>
         </Button>
 
@@ -176,8 +177,9 @@ export default function AdminRoutes() {
         <Routes>
           <Route path="/" index element={<Admin />} />
           <Route path="/carts" element={<Carts />} />
-          <Route path="/stocks" element={<Admin />} />
+          <Route path="/stocks" element={<Stocks />} />
           <Route path="/sales-report" element={<SalesReport />} />
+          <Route path="/expense" element={<Expense />} />
 
           <Route path="/staffs" element={<Staff />} />
           <Route path="/accountants" index element={<Accountants />} />

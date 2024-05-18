@@ -1,13 +1,11 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import Login from './Login';
 import AdminRoutes from './admin/AdminRoutes';
 import ProtectedRoute from './admin/ProtectedRoute';
-import { Toaster } from './components/ui/toaster';
 import { Button } from './components/ui/button';
-import StaffRoute from './staffs/StaffRoute';
-import ProtectedRouteAcc from './accountant/ProtectedRouteAcc';
-import AccountantRoute from './accountant/AccountantRoute';
-import Login from './Login';
+import { Toaster } from './components/ui/toaster';
 import ProtectedStaff from './staffs/ProtectedStaff';
+import StaffRoute from './staffs/StaffRoute';
 
 function App() {
   if (!localStorage.getItem('user_id_britanika')) {
@@ -50,15 +48,6 @@ function App() {
             <ProtectedRoute>
               <AdminRoutes />
             </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/accountant/*"
-          element={
-            <ProtectedRouteAcc>
-              <AccountantRoute />
-            </ProtectedRouteAcc>
           }
         />
 

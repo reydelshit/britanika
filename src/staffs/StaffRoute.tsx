@@ -51,6 +51,19 @@ export default function StaffRoute() {
             DRIVING RANGE
           </Link>
         </Button>
+
+        <Button
+          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
+            currentPath == '/staff/expense'
+              ? ' rounded-md bg-blue-500 text-start text-white'
+              : ''
+          }`}
+        >
+          <Link className="flex" to="/staff/expense">
+            {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
+            EXPENSE
+          </Link>
+        </Button>
       </div>
       <div className="w-full justify-center px-4">
         <Routes>

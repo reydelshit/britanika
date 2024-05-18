@@ -68,7 +68,7 @@ export default function DrivingRange() {
       )}
 
       <div>
-        <h1 className="text-[4rem] font-bold">ORDER rangeS SECTION</h1>
+        <h1 className="text-[4rem] font-bold">ORDER RANGE SECTION</h1>
 
         <div className="grid grid-cols-4 gap-4">
           {drivingRange &&
