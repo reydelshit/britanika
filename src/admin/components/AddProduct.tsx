@@ -106,7 +106,7 @@ export default function AddProduct({
 
         <form className="w-full px-4 text-start" onSubmit={handleSubmit}>
           <div className="w-full">
-            <Label className="mb-2 text-start">product</Label>
+            <Label className="mb-2 text-start">Product</Label>
             <Input
               name="product_name"
               className="mb-2"
@@ -125,7 +125,7 @@ export default function AddProduct({
           </div>
 
           <div className="item-start flex flex-col ">
-            <Label className="mb-2 text-start">Stocks</Label>
+            <Label className="mb-2 text-start">Initial stocks</Label>
             <Input
               type="number"
               name="stocks"

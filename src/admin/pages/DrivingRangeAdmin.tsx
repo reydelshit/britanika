@@ -1,28 +1,47 @@
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import AddCart from '../components/AddCart';
+import AddCart from '../components/AddDrivingRange';
+import AddDrivingRange from '../components/AddDrivingRange';
 
-type Carts = {
-  cart_id: number;
-  cart_number: string;
+type OrderDriving = {
+  order_range_id: string;
+  customer_name: string;
+  range_id: string;
+  amount: number;
+  created_at: Date;
+  range_number: string;
+};
+
+type DrivingRange = {
+  range_id: number;
+  range_number: string;
   type: string;
   color: string;
-  cart_image: string;
+  range_image: string;
   price: number;
   availability_status: string;
 };
-const Carts = () => {
-  const [carts, setCarts] = useState<Carts[]>([]);
+
+const DrivingRangeAdmin = () => {
   const [showCartForm, setShowCartForm] = useState(false);
 
-  const getALlCarts = () => {
+  const [drivingOrder, setDrivingOrders] = useState<OrderDriving[]>([]);
+
+  const [drivingRange, setDrivingRange] = useState<DrivingRange[]>([]);
+  const [showRangeForm, setShowRangeForm] = useState(false);
+
+  const getALlranges = () => {
     axios
-      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`)
+      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/driving_range.php`)
       .then((res) => {
-        setCarts(res.data);
+        setDrivingRange(res.data);
       });
   };
+
+  useEffect(() => {
+    getALlranges();
+  }, []);
 
   const handleDelete = (id: number) => {
     axios
@@ -34,7 +53,7 @@ const Carts = () => {
       .then((res) => {
         console.log(res.data);
         if (res.data.status === 'success') {
-          getALlCarts();
+          getALlranges();
         }
       });
   };
@@ -48,59 +67,62 @@ const Carts = () => {
       })
       .then((res) => {
         console.log(res.data);
-        getALlCarts();
+        getALlranges();
       });
   };
 
   useEffect(() => {
-    getALlCarts();
+    getALlranges();
   }, []);
 
   return (
     <div className="w-full">
-      {showCartForm && (
+      {showRangeForm && (
         <div className="absolute flex h-full w-full items-center justify-center bg-white bg-opacity-80">
-          <AddCart setShowCartForm={setShowCartForm} />
+          <AddDrivingRange setShowRangeForm={setShowRangeForm} />
         </div>
       )}
       <div>
         <h1 className="text-[4rem] font-bold">CARTS</h1>
 
         <div className="grid grid-cols-4 gap-4">
-          {carts &&
-            carts.map((cart, index) => (
+          {drivingRange &&
+            drivingRange.map((range, index) => (
               <div
                 key={index}
                 className="flex  w-[20rem] flex-col rounded-md border-2 p-4"
               >
                 <img
                   className="h-[12rem] w-full object-cover"
-                  src={cart.cart_image}
-                  alt={cart.cart_number}
+                  src={range.range_image}
+                  alt={range.range_number}
                 />
                 <div className="my-2 flex items-center justify-between">
-                  <h1 className="my-2 font-semibold">{cart.cart_number}</h1>
+                  <h1 className="my-2 font-semibold">{range.range_number}</h1>
 
                   <span
-                    className={`rounded-md ${cart.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
+                    className={`rounded-md ${range.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
                   >
-                    {cart.availability_status}
+                    {range.availability_status}
                   </span>
                 </div>
-                <h1 className="my-2 font-semibold">Price: ₱{cart.price}</h1>
+                <h1 className="my-2 font-semibold">Price: ₱{range.price}</h1>
                 <div className="flex w-full justify-between gap-2">
                   <Button
                     onClick={() =>
-                      handleChangeStatus(cart.cart_id, cart.availability_status)
+                      handleChangeStatus(
+                        range.range_id,
+                        range.availability_status,
+                      )
                     }
                     className="uppercase"
                   >
                     SET{' '}
-                    {cart.availability_status === 'Available'
+                    {range.availability_status === 'Available'
                       ? 'Not Available'
                       : 'Available'}
                   </Button>
-                  <Button onClick={() => handleDelete(cart.cart_id)}>
+                  <Button onClick={() => handleDelete(range.range_id)}>
                     DELETE
                   </Button>
                 </div>
@@ -108,7 +130,7 @@ const Carts = () => {
             ))}
 
           <div
-            onClick={() => setShowCartForm(true)}
+            onClick={() => setShowRangeForm(true)}
             className="flex w-[20rem] cursor-pointer flex-col items-center justify-center rounded-md border-2 p-4 hover:bg-yellow-50"
           >
             <img
@@ -123,4 +145,4 @@ const Carts = () => {
   );
 };
 
-export default Carts;
+export default DrivingRangeAdmin;

@@ -32,7 +32,7 @@ type DrivingRange = {
   availability_status: string;
 };
 
-export default function RangeStaff() {
+export default function DrivingRange() {
   const [drivingOrder, setDrivingOrders] = useState<OrderDriving[]>([]);
 
   const [drivingRange, setDrivingRange] = useState<DrivingRange[]>([]);

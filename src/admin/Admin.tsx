@@ -3,16 +3,29 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Addproduct from './components/AddProduct';
 
-type productes = {
+type Product = {
   product_id: number;
   product_name: string;
   product_image: string;
   product_price: number;
   availability_status: string;
+  stocks: number;
 };
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+
 const Admin = () => {
-  const [product, setProduct] = useState<productes[]>([]);
+  const [product, setProduct] = useState<Product[]>([]);
   const [showProductForm, setShowProductForm] = useState(false);
 
   const getALlProducts = () => {
@@ -56,29 +69,34 @@ const Admin = () => {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="h-screen w-full">
       {showProductForm && (
         <div className="absolute flex h-full w-full items-center justify-center bg-white bg-opacity-80">
           <Addproduct setShowProductForm={setShowProductForm} />
         </div>
       )}
-      <div>
-        <h1 className="text-[4rem] font-bold">AVAILABLE productES</h1>
+      <div className="h-full">
+        <h1 className="text-[4rem] font-bold">PRODUCTS</h1>
 
         <div className="grid grid-cols-4 gap-4">
           {product &&
             product.map((prod, index) => (
               <div
                 key={index}
-                className="flex  w-[20rem] flex-col rounded-md border-2 p-4"
+                className="flex w-[20rem] flex-col rounded-md border-2 p-4"
               >
+                <Button className="my-2 w-[8rem] self-end">Add Stock</Button>
+
                 <img
                   className="h-[12rem] w-full object-cover"
                   src={prod.product_image}
                   alt={prod.product_name}
                 />
                 <div className="my-2 flex items-center justify-between">
-                  <h1 className="my-2 font-semibold">{prod.product_name}</h1>
+                  <div className="flex flex-col">
+                    <h1 className="font-semibold">{prod.product_name}</h1>
+                    <h1 className="font-semibold">Stock: {prod.stocks}</h1>
+                  </div>
 
                   <span
                     className={`rounded-md ${prod.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
@@ -104,9 +122,31 @@ const Admin = () => {
                       ? 'Not Available'
                       : 'Available'}
                   </Button>
-                  <Button onClick={() => handleDelete(prod.product_id)}>
-                    DELETE
-                  </Button>
+
+                  <AlertDialog>
+                    <AlertDialogTrigger>
+                      <Button>DELETE</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete and remove the data from the servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => handleDelete(prod.product_id)}
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </div>
             ))}

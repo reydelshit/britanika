@@ -4,8 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 
-import axios from 'axios';
-import { useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -13,17 +11,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import axios from 'axios';
+import { useState } from 'react';
 // import { URL } from 'url';
 
 type ChangeEvent =
   | React.ChangeEvent<HTMLInputElement>
   | React.ChangeEvent<HTMLTextAreaElement>;
-export default function AddCart({
-  setShowCartForm,
+export default function AddDrivingRange({
+  setShowRangeForm,
 }: {
-  setShowCartForm: (value: boolean) => void;
+  setShowRangeForm: (value: boolean) => void;
 }) {
-  const [carts, setCarts] = useState([]);
+  const [range, setRange] = useState([]);
   const { toast } = useToast();
   const [image, setImage] = useState<string | null>(null);
   const [error, setError] = useState('' as string);
@@ -39,7 +39,7 @@ export default function AddCart({
   const handleChange = (e: ChangeEvent) => {
     const value = e.target.value;
     const name = e.target.name;
-    setCarts((values) => ({ ...values, [name]: value }));
+    setRange((values) => ({ ...values, [name]: value }));
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,22 +49,22 @@ export default function AddCart({
       return;
     }
 
-    console.log(carts);
+    console.log(range);
 
     axios
-      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`, {
+      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/driving_range.php`, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        ...carts,
-        cart_image: image,
+        ...range,
+        range_image: image,
         availability_status: selectedAvailability,
       })
       .then((res) => {
         console.log(res.data);
         if (res.data.status === 'success') {
           window.location.reload();
-          setShowCartForm(false);
+          setShowRangeForm(false);
           toast({
             title: 'Dish: Added Successfully',
             description: 'Dish has been added successfully',
@@ -95,7 +95,7 @@ export default function AddCart({
             className="mb-4  h-[20rem] w-full rounded-lg object-cover"
             src={image! ? image! : Lgo}
           />
-          <Label className="mb-2 text-start">Cart image</Label>
+          <Label className="mb-2 text-start">Range image</Label>
 
           <Input
             type="file"
@@ -108,9 +108,9 @@ export default function AddCart({
 
         <form className="w-full px-4 text-start" onSubmit={handleSubmit}>
           <div className="w-full">
-            <Label className="mb-2 text-start">Cart Number</Label>
+            <Label className="mb-2 text-start">Range Number</Label>
             <Input
-              name="cart_number"
+              name="range_number"
               className="mb-2"
               required
               onChange={handleChange}
@@ -168,13 +168,13 @@ export default function AddCart({
 
           <div className="flex justify-end gap-4">
             <Button
-              onClick={() => setShowCartForm(false)}
+              onClick={() => setShowRangeForm(false)}
               className="w-[40%] self-center"
             >
               Cancel
             </Button>
             <Button className="w-[40%] self-center" type="submit">
-              Add Cart
+              Add Range
             </Button>
           </div>
         </form>

@@ -77,9 +77,9 @@ type Cart = {
 export default function Resto() {
   const [products, setProducts] = useState<Product[]>([]);
   const [productOrdersInCart, setProductOrdersInCart] = useState<Cart[]>([]);
-
+  const [allOrders, setAllOrders] = useState<Orders[]>([]);
   const [quantityIndex, setQuantityIndex] = useState(0);
-
+  const [showOrders, setShowOrders] = useState(false);
   const [quantity, setQuantity] = useState(0);
   const [customerName, setCustomerName] = useState('');
   const user_id = localStorage.getItem('user_id_britanika');
@@ -115,7 +115,7 @@ export default function Resto() {
     axios
       .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order.php`)
       .then((res) => {
-        // setAllOrders(res.data);
+        setAllOrders(res.data);
         console.log(res.data);
       });
   };
@@ -261,10 +261,18 @@ export default function Resto() {
       })
       .then((res) => {
         console.log(res.data);
-        toast({
-          title: 'Order: Added Successfully',
-          description: moment().format('LLLL'),
-        });
+        if (res.data.status === 'success') {
+          toast({
+            title: 'Order: Added Successfully',
+            description: moment().format('LLLL'),
+          });
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Order: Failed to add',
+            description: moment().format('LLLL'),
+          });
+        }
 
         setCustomerName('');
 
@@ -272,11 +280,29 @@ export default function Resto() {
       });
   };
 
+  const handleStatus = (value: string) => {
+    const status = value.split(' ')[0];
+    const order_id = value.split(' ')[1];
+
+    axios
+      .put(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order.php`, {
+        order_id: order_id,
+        status: status,
+      })
+      .then((res) => {
+        console.log(res.data);
+        getALlOrders();
+      });
+  };
+
   return (
-    <div className="flex h-screen w-full justify-between border-2">
-      <div className="w-full">
+    <div className="relative flex h-screen w-full justify-between border-2">
+      <div className="relative w-full">
         <h1 className="text-[4rem] font-bold">RESTO SECTION</h1>
 
+        <Button className="my-4" onClick={() => setShowOrders(true)}>
+          SHOW ORDERS
+        </Button>
         <div className="flex h-full w-full justify-between gap-2">
           <div className="grid h-fit grid-cols-3 gap-2">
             {products &&
@@ -293,7 +319,9 @@ export default function Resto() {
                   <div className="my-2 flex items-center justify-between">
                     <div>
                       <h1 className="font-semibold">{prod.product_name}</h1>
-                      <span className="font-bold">Stocks: {prod.stocks}</span>
+                      <span className="font-semibold">
+                        Stocks: {prod.stocks}
+                      </span>
                     </div>
 
                     <span
@@ -443,7 +471,7 @@ export default function Resto() {
             </div>
 
             <div>
-              <div className="flex w-full justify-between p-4 font-bold">
+              <div className="flex w-full justify-between rounded-md bg-black p-4 font-bold text-white">
                 <h1>Total</h1>
                 <span>
                   ₱
@@ -456,106 +484,182 @@ export default function Resto() {
             </div>
 
             <div className="flex justify-end">
-              <Button
-                onClick={() => handleCheckout()}
-                className="my-2 h-[3.5rem] text-2xl font-bold text-white"
-              >
-                Checkout
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  {' '}
+                  <Button className="my-2 h-[3.5rem] text-2xl font-bold text-white">
+                    Checkout
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Checkout Confirmation</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Confirm Products
+                      {productOrdersInCart.length > 0 ? (
+                        productOrdersInCart.map((ca, index) => (
+                          <div
+                            className="mb-2 flex h-[6rem] items-center justify-between border-b-2"
+                            key={index}
+                          >
+                            <div className="flex w-full gap-2">
+                              <img
+                                className="h-[4rem] w-[4rem] rounded-md bg-gray-100 object-cover"
+                                src={ca.product_image}
+                                alt={ca.product_name}
+                              />
+                              <div>
+                                <h1 className="font-bold">{ca.product_name}</h1>
+                                <p>Qty: {ca.qty}</p>
+                              </div>
+                            </div>
+
+                            <div className="flex h-full flex-col items-center justify-around">
+                              <span
+                                onClick={() =>
+                                  handleDeleteCartProduct(ca.cart_id)
+                                }
+                                className="cursor-pointer"
+                              >
+                                <AiOutlineDelete className="text-3xl text-[#38bdf8]" />
+                              </span>
+                              <span className="block font-bold">
+                                ₱{ca.product_price * ca.qty}
+                              </span>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="flex h-[9rem] items-center justify-center">
+                          <h1 className="text-1xl font-bold">Cart is empty</h1>
+                        </div>
+                      )}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction>
+                      {' '}
+                      <Button onClick={() => handleCheckout()}>Checkout</Button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
         </div>
 
-        <div className="invisible mt-[rem] w-full">
-          {/* <div className="flex justify-end">
-            <Button
-              className="my-[2rem] h-[3.5rem]  text-2xl font-bold text-white"
-              onClick={() => setShowOrderForm(true)}
-            >
-              Add Order
-            </Button>
-          </div> */}
+        {showOrders && (
+          <div className="absolute top-0 mt-[rem] flex h-full w-full flex-col items-center justify-center bg-white bg-opacity-80">
+            <div className="mt-[1rem] flex w-[70%] flex-col border-2 bg-white p-4">
+              <div className="my-4 flex w-full items-center justify-between">
+                <h1 className="font-bold">ORDERS</h1>
+                <Button onClick={() => setShowOrders(false)}>Close</Button>
+              </div>
+              <Table className="mx-auto w-[100%] border-2 bg-white">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-center">ID</TableHead>
+                    <TableHead className="text-center">Customer Name</TableHead>
+                    <TableHead className="text-center">Amount</TableHead>
+                    <TableHead className="text-center">Quantity</TableHead>
 
-          {/* <div className="mt-[1rem] w-full">
-            <Table className="mx-auto w-[100%] border-2 bg-white">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-center">ID</TableHead>
-                  <TableHead className="text-center">Customer Name</TableHead>
-                  <TableHead className="text-center">Amount</TableHead>
-                  <TableHead className="text-center">Quantity</TableHead>
+                    <TableHead className="text-center">Date Created</TableHead>
+                    <TableHead className="text-center">Status</TableHead>
+                    <TableHead className="text-center"></TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {allOrders.length > 0 ? (
+                    allOrders
+                      .sort((a, b) => {
+                        if (
+                          a.status.toLowerCase().includes('pending') &&
+                          !b.status.toLowerCase().includes('pending')
+                        ) {
+                          return -1;
+                        }
+                        if (
+                          !a.status.toLowerCase().includes('pending') &&
+                          b.status.toLowerCase().includes('pending')
+                        ) {
+                          return 1;
+                        }
+                        return a.order_id - b.order_id;
+                      })
+                      .map((ord, index) => (
+                        <TableRow key={index}>
+                          <TableCell className="text-center">
+                            {ord.order_id}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            {ord.order_customer_name}
+                          </TableCell>
 
-                  <TableHead className="text-center">Date Created</TableHead>
-                  <TableHead className="text-center">Status</TableHead>
-                  <TableHead className="text-center"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {allOrders.length > 0 ? (
-                  allOrders.map((ord, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="text-center">
-                        {ord.order_id}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        {ord.order_customer_name}
-                      </TableCell>
+                          <TableCell className="text-center">
+                            ₱{ord.amount}
+                          </TableCell>
 
-                      <TableCell className="text-center">
-                        ₱{ord.amount}
-                      </TableCell>
+                          <TableCell className="text-center">
+                            {moment(ord.created_at).format('LL')}
+                          </TableCell>
 
-                      <TableCell className="text-center">
-                        {ord.quantity}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        {moment(ord.created_at).format('LL')}
-                      </TableCell>
-
-                      <TableCell className="text-center">
-                        <span
-                          className={`rounded-md p-2 text-white ${
-                            ord.status.toLowerCase().includes('pending')
-                              ? 'bg-yellow-500'
-                              : ord.status.toLowerCase().includes('served')
-                                ? 'bg-green-500'
-                                : 'bg-red-500'
-                          }`}
-                        >
-                          {ord.status}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <Select onValueChange={handleStatus}>
-                          <SelectTrigger className="h-[3rem]">
-                            <SelectValue placeholder="productes" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value={`Pending ${ord.order_id}`}>
-                              Pending
-                            </SelectItem>
-                            <SelectItem value={`Served ${ord.order_id}`}>
-                              Served
-                            </SelectItem>
-                            <SelectItem value={`Cancelled ${ord.order_id}`}>
-                              Cancel
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
+                          <TableCell className="text-center">
+                            <span
+                              className={`rounded-md p-2 text-white ${
+                                ord.status.toLowerCase().includes('pending')
+                                  ? 'bg-yellow-500'
+                                  : ord.status.toLowerCase().includes('served')
+                                    ? 'bg-green-500'
+                                    : 'bg-red-500'
+                              }`}
+                            >
+                              {ord.status}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <Select onValueChange={handleStatus}>
+                              <SelectTrigger className="h-[3rem]">
+                                <SelectValue placeholder="Update status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value={`Pending ${ord.order_id}`}>
+                                  Pending
+                                </SelectItem>
+                                <SelectItem value={`Served ${ord.order_id}`}>
+                                  Served
+                                </SelectItem>
+                                <SelectItem value={`Cancelled ${ord.order_id}`}>
+                                  Cancel
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={5} className="text-center">
+                        No orders available
                       </TableCell>
                     </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={5} className="text-center">
-                      No orders available
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div> */}
-        </div>
+                  )}
+                </TableBody>
+              </Table>
+
+              <div className="my-[1rem] flex w-[95%] justify-end">
+                <span className="block rounded-lg bg-green-500 p-4 font-semibold text-white">
+                  CART SALES: ₱{' '}
+                  {allOrders
+                    .filter((ord) =>
+                      ord.status.toLowerCase().includes('served'),
+                    )
+                    .reduce((acc, ord) => acc + ord.amount, 0)}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
