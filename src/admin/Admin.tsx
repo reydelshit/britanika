@@ -24,9 +24,25 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
+
 const Admin = () => {
   const [product, setProduct] = useState<Product[]>([]);
   const [showProductForm, setShowProductForm] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+  const [error, setError] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const { toast } = useToast();
 
   const getALlProducts = () => {
     axios
@@ -68,6 +84,35 @@ const Admin = () => {
     getALlProducts();
   }, []);
 
+  const handleAddStock = (id: number) => {
+    if (quantity === 0) return setError('Please fill in all fields');
+
+    console.log(quantity, id);
+    axios
+      .put(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/stocks.php`, {
+        product_id: id,
+        stocks: quantity,
+      })
+      .then((res) => {
+        console.log(res.data);
+
+        if (res.data.status === 'success') {
+          toast({
+            title: 'Stock Added Successfully',
+            description: 'Stock has been added successfully',
+          });
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Failed to Add Stock',
+            description: 'Failed to add stock',
+          });
+        }
+        setOpen(false);
+        getALlProducts();
+      });
+  };
+
   return (
     <div className="h-screen w-full">
       {showProductForm && (
@@ -85,7 +130,45 @@ const Admin = () => {
                 key={index}
                 className="flex w-[20rem] flex-col rounded-md border-2 p-4"
               >
-                <Button className="my-2 w-[8rem] self-end">Add Stock</Button>
+                <Dialog>
+                  <DialogTrigger className="my-2 w-[8rem] self-end">
+                    {' '}
+                    <Button>Add Stock</Button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-opacity-65">
+                    <DialogHeader>
+                      <DialogTitle>Add Stock</DialogTitle>
+                      <DialogDescription>
+                        <h1 className="rounded-md bg-black p-2 text-white">
+                          Current Stock: {prod.stocks}
+                        </h1>
+                        <Input
+                          onChange={(e) =>
+                            setQuantity(parseInt(e.target.value))
+                          }
+                          className="my-2"
+                          type="number"
+                          placeholder="Enter Stock"
+                        />
+
+                        {error && <p className="text-red-500">{error}</p>}
+
+                        <DialogTrigger asChild>
+                          <div className="flex w-full justify-end">
+                            <Button
+                              disabled={quantity === 0}
+                              type="submit"
+                              onClick={() => handleAddStock(prod.product_id)}
+                              className="my-4 "
+                            >
+                              Submit
+                            </Button>
+                          </div>
+                        </DialogTrigger>
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
 
                 <img
                   className="h-[12rem] w-full object-cover"
