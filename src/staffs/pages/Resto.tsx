@@ -266,6 +266,8 @@ export default function Resto() {
           description: moment().format('LLLL'),
         });
 
+        setCustomerName('');
+
         handleFetchCart();
       });
   };
@@ -289,9 +291,10 @@ export default function Resto() {
                     alt={prod.product_name}
                   />
                   <div className="my-2 flex items-center justify-between">
-                    <h1 className="my-2 font-semibold">
-                      {prod.product_name} - {prod.stocks}
-                    </h1>
+                    <div>
+                      <h1 className="font-semibold">{prod.product_name}</h1>
+                      <span className="font-bold">Stocks: {prod.stocks}</span>
+                    </div>
 
                     <span
                       className={`rounded-md ${prod.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
