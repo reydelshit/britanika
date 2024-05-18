@@ -18,12 +18,12 @@ import {
 type ChangeEvent =
   | React.ChangeEvent<HTMLInputElement>
   | React.ChangeEvent<HTMLTextAreaElement>;
-export default function AddDish({
-  setShowDishForm,
+export default function AddProduct({
+  setShowProductForm,
 }: {
-  setShowDishForm: (value: boolean) => void;
+  setShowProductForm: (value: boolean) => void;
 }) {
-  const [dishes, setDishes] = useState([]);
+  const [product, setProduct] = useState([]);
   const { toast } = useToast();
   const [image, setImage] = useState<string | null>(null);
   const [error, setError] = useState('' as string);
@@ -39,7 +39,7 @@ export default function AddDish({
   const handleChange = (e: ChangeEvent) => {
     const value = e.target.value;
     const name = e.target.name;
-    setDishes((values) => ({ ...values, [name]: value }));
+    setProduct((values) => ({ ...values, [name]: value }));
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,22 +50,22 @@ export default function AddDish({
     }
 
     axios
-      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/dish.php`, {
+      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/product.php`, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        ...dishes,
-        dish_image: image,
+        ...product,
+        product_image: image,
         availability_status: selectedAvailability,
       })
       .then((res) => {
         console.log(res.data);
         if (res.data.status === 'success') {
           window.location.reload();
-          setShowDishForm(false);
+          setShowProductForm(false);
           toast({
-            title: 'Dish: Added Successfully',
-            description: 'Dish has been added successfully',
+            title: 'product: Added Successfully',
+            description: 'product has been added successfully',
           });
         }
       });
@@ -93,7 +93,7 @@ export default function AddDish({
             className="mb-4  h-[20rem] w-full rounded-lg object-cover"
             src={image! ? image! : Lgo}
           />
-          <Label className="mb-2 text-start">Dish image</Label>
+          <Label className="mb-2 text-start">product image</Label>
 
           <Input
             type="file"
@@ -106,9 +106,9 @@ export default function AddDish({
 
         <form className="w-full px-4 text-start" onSubmit={handleSubmit}>
           <div className="w-full">
-            <Label className="mb-2 text-start">Dish</Label>
+            <Label className="mb-2 text-start">product</Label>
             <Input
-              name="dish_name"
+              name="product_name"
               className="mb-2"
               required
               onChange={handleChange}
@@ -118,7 +118,17 @@ export default function AddDish({
             <Label className="mb-2 text-start">Price</Label>
             <Input
               type="number"
-              name="dish_price"
+              name="product_price"
+              className="mb-2"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="item-start flex flex-col ">
+            <Label className="mb-2 text-start">Stocks</Label>
+            <Input
+              type="number"
+              name="stocks"
               className="mb-2"
               onChange={handleChange}
             />
@@ -146,13 +156,13 @@ export default function AddDish({
 
           <div className="flex justify-end gap-4">
             <Button
-              onClick={() => setShowDishForm(false)}
+              onClick={() => setShowProductForm(false)}
               className="w-[40%] self-center"
             >
               Cancel
             </Button>
             <Button className="w-[40%] self-center" type="submit">
-              Add Dish
+              Add product
             </Button>
           </div>
         </form>

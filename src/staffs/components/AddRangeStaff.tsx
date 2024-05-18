@@ -36,9 +36,9 @@ type ChangeEvent =
   | React.ChangeEvent<HTMLInputElement>
   | React.ChangeEvent<HTMLTextAreaElement>;
 export default function AddCartStaff({
-  setShowCartForm,
+  setShowRangeForm,
 }: {
-  setShowCartForm: (value: boolean) => void;
+  setShowRangeForm: (value: boolean) => void;
 }) {
   const [cartsInput, setCartsInput] = useState([]);
 
@@ -115,7 +115,7 @@ export default function AddCartStaff({
       .then((res) => {
         console.log(res.data);
         if (res.data.status === 'success') {
-          setShowCartForm(false);
+          setShowRangeForm(false);
           toast({
             title: 'Dish: Added Successfully',
             description: 'Dish has been added successfully',
@@ -214,7 +214,7 @@ export default function AddCartStaff({
 
           <div className="flex justify-end gap-4">
             <Button
-              onClick={() => setShowCartForm(false)}
+              onClick={() => setShowRangeForm(false)}
               className="w-[40%] self-center"
             >
               Cancel

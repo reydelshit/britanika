@@ -12,87 +12,87 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import moment from 'moment';
-import AddCartStaff from '../components/AddCartStaff';
+import AddRangeStaff from '../components/AddRangeStaff';
 
-type OrderCarts = {
-  order_cart_id: string;
+type OrderDriving = {
+  order_range_id: string;
   customer_name: string;
-  cart_id: string;
+  range_id: string;
   amount: number;
   created_at: Date;
-  cart_number: string;
+  range_number: string;
 };
-type Carts = {
-  cart_id: number;
-  cart_number: string;
+type DrivingRange = {
+  range_id: number;
+  range_number: string;
   type: string;
   color: string;
-  cart_image: string;
+  range_image: string;
   price: number;
   availability_status: string;
 };
 
-export default function CartStaff() {
-  const [cartOrders, setCartOrders] = useState<OrderCarts[]>([]);
+export default function RangeStaff() {
+  const [drivingOrder, setDrivingOrders] = useState<OrderDriving[]>([]);
 
-  const [carts, setCarts] = useState<Carts[]>([]);
-  const [showCartForm, setShowCartForm] = useState(false);
+  const [drivingRange, setDrivingRange] = useState<DrivingRange[]>([]);
+  const [showRangeForm, setShowRangeForm] = useState(false);
 
-  const getALlCarts = () => {
+  const getALlranges = () => {
     axios
-      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`)
+      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/driving_range.php`)
       .then((res) => {
-        setCarts(res.data);
+        setDrivingRange(res.data);
       });
   };
 
-  const getALlCartOrders = () => {
+  const getALlrangeOrders = () => {
     axios
-      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order-cart.php`)
+      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order-range.php`)
       .then((res) => {
-        setCartOrders(res.data);
+        setDrivingOrders(res.data);
       });
   };
 
   useEffect(() => {
-    getALlCartOrders();
-    getALlCarts();
+    getALlrangeOrders();
+    getALlranges();
   }, []);
 
   return (
     <div className="flex w-full justify-between border-2">
-      {showCartForm && (
+      {showRangeForm && (
         <div className="absolute flex h-full w-full items-center justify-center  bg-white bg-opacity-80">
-          <AddCartStaff setShowCartForm={setShowCartForm} />
+          <AddRangeStaff setShowRangeForm={setShowRangeForm} />
         </div>
       )}
 
       <div>
-        <h1 className="text-[4rem] font-bold">ORDER CARTS SECTION</h1>
+        <h1 className="text-[4rem] font-bold">ORDER rangeS SECTION</h1>
 
         <div className="grid grid-cols-4 gap-4">
-          {carts &&
-            carts
-              .map((cart, index) => (
+          {drivingRange &&
+            drivingRange
+              .map((range, index) => (
                 <div
                   key={index}
                   className="flex  w-[20rem] flex-col rounded-md border-2 p-4"
                 >
                   <img
                     className="h-[12rem] w-full object-cover"
-                    src={cart.cart_image}
-                    alt={cart.cart_number}
+                    src={range.range_image}
+                    alt={range.range_number}
                   />
                   <div className="my-2 flex items-center justify-between">
-                    <h1 className="my-2 font-semibold">{cart.cart_number}</h1>
+                    <h1 className="my-2 font-semibold">{range.range_number}</h1>
 
                     <span
-                      className={`rounded-md ${cart.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
+                      className={`rounded-md ${range.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
                     >
-                      {cart.availability_status}
+                      {range.availability_status}
                     </span>
                   </div>
-                  <h1 className="my-2 font-semibold">Price: ₱ {cart.price}</h1>
+                  <h1 className="my-2 font-semibold">Price: ₱ {range.price}</h1>
                 </div>
               ))
               .slice(0, 4)}
@@ -102,7 +102,7 @@ export default function CartStaff() {
           <div className="flex justify-end">
             <Button
               className="my-[2rem] h-[3.5rem]  text-2xl font-bold text-white"
-              onClick={() => setShowCartForm(true)}
+              onClick={() => setShowRangeForm(true)}
             >
               Add Customer
             </Button>
@@ -114,7 +114,7 @@ export default function CartStaff() {
                 <TableRow>
                   {/* <TableHead className="text-center">ID</TableHead> */}
                   <TableHead className="text-center">Customer Name</TableHead>
-                  <TableHead className="text-center">Cart No.</TableHead>
+                  <TableHead className="text-center">range No.</TableHead>
 
                   <TableHead className="text-center">Amount</TableHead>
 
@@ -122,22 +122,22 @@ export default function CartStaff() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cartOrders.length > 0 ? (
-                  cartOrders.map((cart, index) => (
+                {drivingOrder.length > 0 ? (
+                  drivingOrder.map((range, index) => (
                     <TableRow key={index}>
                       <TableCell className="text-center">
-                        {cart.customer_name}
+                        {range.customer_name}
                       </TableCell>
                       <TableCell className="text-center">
-                        {cart.cart_number}
-                      </TableCell>
-
-                      <TableCell className="text-center">
-                        ₱{cart.amount}
+                        {range.range_number}
                       </TableCell>
 
                       <TableCell className="text-center">
-                        {moment(cart.created_at).format('LL')}
+                        ₱{range.amount}
+                      </TableCell>
+
+                      <TableCell className="text-center">
+                        {moment(range.created_at).format('LL')}
                       </TableCell>
                     </TableRow>
                   ))
