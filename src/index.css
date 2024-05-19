@@ -10,6 +10,8 @@
 
 body {
   overflow-x: hidden;
+  background: white;
+  /* color: #758467; */
 }
 
 /* hide button in print  */

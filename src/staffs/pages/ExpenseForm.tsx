@@ -238,9 +238,11 @@ const ExpenseForm = () => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="flex h-screen w-full flex-col items-center pl-[20rem]">
       <div className="my-4 w-full text-start">
-        <h1 className="text-start text-[4rem] font-bold">EXPENSE FORM</h1>
+        <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">
+          EXPENSE FORM
+        </h1>
       </div>
       <div className="w-[40%]">
         <Label>Purchase Date</Label>
@@ -344,7 +346,12 @@ const ExpenseForm = () => {
             />
 
             <div className="my-4 flex justify-end">
-              <Button type="submit">Add</Button>
+              <Button
+                className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
+                type="submit"
+              >
+                Add Product
+              </Button>
             </div>
           </form>
           <h1>Purchases</h1>
@@ -389,7 +396,7 @@ const ExpenseForm = () => {
           </div>
 
           <div className="flex w-full justify-end">
-            <span className="my-4 block rounded-lg bg-black p-2 font-semibold text-white">
+            <span className="my-4 block rounded-lg bg-[#41644A]  p-2 font-semibold text-white">
               Total: ₱{' '}
               {purchasedProducts.reduce((acc, ord) => acc + ord.total, 0)}
             </span>
@@ -419,7 +426,12 @@ const ExpenseForm = () => {
         {error && <p className="text-red-500">{error}</p>}
 
         <div className="flex w-full justify-end">
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Button
+            className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
         </div>
       </div>
     </div>

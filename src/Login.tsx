@@ -81,11 +81,12 @@ export default function Login() {
       });
   };
 
+  // bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center text-center">
-      <div>
+      <div className="w-[30rem] rounded-lg bg-[#41644A] p-4 text-white">
         {/* <img src={Cake} alt="logo" className="w-[20rem]" /> */}
-        <h1 className="my-4 text-4xl font-bold ">LOGIN NOW!</h1>
+        <h1 className="my-4 text-4xl font-bold ">LOGIN</h1>
 
         <form
           onSubmit={handleLogin}
@@ -94,7 +95,7 @@ export default function Login() {
           <Input
             // type="email"
             placeholder="Email"
-            className="mb-2"
+            className="mb-2 placeholder:text-white"
             name="email"
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -102,7 +103,7 @@ export default function Login() {
             <Input
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
-              className="mb-2"
+              className="mb-2 placeholder:text-white"
               name="password"
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -115,7 +116,10 @@ export default function Login() {
             </span>
           </div>
 
-          <Button className="my-4 w-[80%] " type="submit">
+          <Button
+            className="my-4 w-[80%] border-2 bg-white text-[#41644A] hover:border-2 hover:bg-[#41644A] hover:text-white"
+            type="submit"
+          >
             Login
           </Button>
         </form>

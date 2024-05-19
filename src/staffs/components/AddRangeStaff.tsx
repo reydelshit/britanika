@@ -216,11 +216,14 @@ export default function AddRangeStaff({
           <div className="flex justify-end gap-4">
             <Button
               onClick={() => setShowRangeForm(false)}
-              className="w-[40%] self-center"
+              className="w-[40%] self-center bg-[#5a685d] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
             >
               Cancel
             </Button>
-            <Button className="w-[40%] self-center" type="submit">
+            <Button
+              className="w-[40%] self-center bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
+              type="submit"
+            >
               Add Order
             </Button>
           </div>

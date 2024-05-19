@@ -125,12 +125,14 @@ const SalesReport = () => {
   });
 
   return (
-    <div>
-      <h1 className="text-[4rem] font-bold">SALES REPORT</h1>
+    <div className="h-screen pl-[20rem]">
+      <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">
+        SALES REPORT
+      </h1>
 
       <div className="flex justify-end gap-4 px-4">
         <Select onValueChange={handleFilterDate}>
-          <SelectTrigger className="h-[3rem] w-[15rem]  text-2xl ">
+          <SelectTrigger className=" w-[15rem] ">
             <SelectValue placeholder="Filter" />
           </SelectTrigger>
           <SelectContent>
@@ -144,11 +146,13 @@ const SalesReport = () => {
       </div>
       <div ref={componentRef2} className="mt-[1rem] w-full">
         <div className="my-2 flex justify-between">
-          <h1 className="text-[2rem] font-bold">RESTO ORDERS</h1>
+          <h1 className="text-[2rem] font-bold text-[#41644A]">
+            RESTO ORDERS (only served is recorded)
+          </h1>
 
           <Button
             onClick={handlePrint2}
-            className="no-print h-[3rem] w-[15rem] text-xl font-semibold"
+            className="no-print h-[3rem] w-[15rem] bg-[#41644A] text-xl font-semibold text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
           >
             Export Resto
           </Button>
@@ -160,7 +164,7 @@ const SalesReport = () => {
               {/* <TableHead className="text-center">ID</TableHead> */}
               <TableHead className="text-center">Customer Name</TableHead>
               <TableHead className="text-center">Amount</TableHead>
-              <TableHead className="text-center">Quantity</TableHead>
+              {/* <TableHead className="text-center">Quantity</TableHead> */}
 
               <TableHead className="text-center">Date Created</TableHead>
               <TableHead className="text-center">Status</TableHead>
@@ -177,7 +181,7 @@ const SalesReport = () => {
 
                   <TableCell className="text-center">₱{ord.amount}</TableCell>
 
-                  <TableCell className="text-center">{ord.quantity}</TableCell>
+                  {/* <TableCell className="text-center">{ord.quantity}</TableCell> */}
                   <TableCell className="text-center">
                     {moment(ord.created_at).format('LL')}
                   </TableCell>
@@ -219,11 +223,13 @@ const SalesReport = () => {
 
       <div ref={componentRef} className="mt-[2rem] w-full">
         <div className="my-2 flex justify-between">
-          <h1 className="text-[2rem] font-bold">CARTS CUSTOMERS</h1>
+          <h1 className="text-[2rem] font-bold text-[#41644A]">
+            DRIVING RANGE CUSTOMERS
+          </h1>
 
           <Button
             onClick={handlePrint}
-            className="no-print h-[3rem] w-[15rem] text-xl font-semibold"
+            className="no-print h-[3rem] w-[15rem] bg-[#41644A] text-xl font-semibold text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
           >
             Export Carts
           </Button>
@@ -281,7 +287,7 @@ const SalesReport = () => {
         </div>
 
         <div className="my-[1rem] flex w-[95%] justify-end">
-          <span className="block rounded-lg bg-black p-4 font-semibold text-white">
+          <span className="block rounded-lg bg-[#41644A] p-4 font-semibold text-white">
             TOTAL SALES: ₱{' '}
             {filteredCarts.reduce((acc, ord) => acc + ord.amount, 0) +
               filteredOrders

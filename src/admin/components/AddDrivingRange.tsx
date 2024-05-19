@@ -88,7 +88,7 @@ export default function AddDrivingRange({
   };
 
   return (
-    <div className="ml-[-10rem] flex h-fit w-[30%] flex-col items-center justify-center border-2 bg-white text-center">
+    <div className="ml-[-15rem] flex h-fit w-[30%] flex-col items-center justify-center border-2 bg-white text-center">
       <div className="flex w-full flex-col items-center gap-[1rem] p-2">
         <div className="flex w-full flex-col px-4">
           <img
@@ -169,11 +169,14 @@ export default function AddDrivingRange({
           <div className="flex justify-end gap-4">
             <Button
               onClick={() => setShowRangeForm(false)}
-              className="w-[40%] self-center"
+              className="w-[40%] self-center bg-[#636660] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
             >
               Cancel
             </Button>
-            <Button className="w-[40%] self-center" type="submit">
+            <Button
+              className="w-[40%] self-center bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
+              type="submit"
+            >
               Add Range
             </Button>
           </div>

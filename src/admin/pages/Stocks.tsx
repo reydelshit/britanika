@@ -38,8 +38,8 @@ const Stocks = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-[4rem] font-bold">STOCKS</h1>
+    <div className="h-screen pl-[20rem]">
+      <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">STOCKS</h1>
 
       <div className="mt-[1rem] w-full">
         <Table className="mx-auto w-[100%] border-2 bg-white">

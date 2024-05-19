@@ -4,6 +4,18 @@ import { useEffect, useState } from 'react';
 import AddCart from '../components/AddDrivingRange';
 import AddDrivingRange from '../components/AddDrivingRange';
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+
 type OrderDriving = {
   order_range_id: string;
   customer_name: string;
@@ -76,14 +88,16 @@ const DrivingRangeAdmin = () => {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="h-screen w-full pl-[20rem]">
       {showRangeForm && (
         <div className="absolute flex h-full w-full items-center justify-center bg-white bg-opacity-80">
           <AddDrivingRange setShowRangeForm={setShowRangeForm} />
         </div>
       )}
       <div>
-        <h1 className="text-[4rem] font-bold">CARTS</h1>
+        <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">
+          DRIVING RANGE
+        </h1>
 
         <div className="grid grid-cols-4 gap-4">
           {drivingRange &&
@@ -101,7 +115,7 @@ const DrivingRangeAdmin = () => {
                   <h1 className="my-2 font-semibold">{range.range_number}</h1>
 
                   <span
-                    className={`rounded-md ${range.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
+                    className={`rounded-md text-white ${range.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
                   >
                     {range.availability_status}
                   </span>
@@ -115,29 +129,49 @@ const DrivingRangeAdmin = () => {
                         range.availability_status,
                       )
                     }
-                    className="uppercase"
+                    className="bg-[#41644A] uppercase text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
                   >
                     SET{' '}
                     {range.availability_status === 'Available'
                       ? 'Not Available'
                       : 'Available'}
                   </Button>
-                  <Button onClick={() => handleDelete(range.range_id)}>
-                    DELETE
-                  </Button>
+
+                  <AlertDialog>
+                    <AlertDialogTrigger>
+                      <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
+                        DELETE
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete and remove the data from the servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => handleDelete(range.range_id)}
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </div>
             ))}
 
           <div
             onClick={() => setShowRangeForm(true)}
-            className="flex w-[20rem] cursor-pointer flex-col items-center justify-center rounded-md border-2 p-4 hover:bg-yellow-50"
+            className="border- flex w-[20rem] cursor-pointer flex-col items-center justify-center rounded-md border-2 p-4 text-[5rem] font-bold hover:bg-[#41644A] hover:text-white"
           >
-            <img
-              className="w-full object-cover"
-              src="https://cdn-icons-png.freepik.com/512/1828/1828925.png"
-              alt="burger"
-            />
+            +
           </div>
         </div>
       </div>

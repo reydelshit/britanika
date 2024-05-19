@@ -12,13 +12,13 @@ export default function StaffRoute() {
   const currentPath = useLocation().pathname;
 
   return (
-    <div className="flex w-full justify-between border-2">
-      <div className="flex h-screen w-[15rem] flex-col items-start border-r-2 p-4 pt-[5rem] text-start">
+    <div className="flex w-full justify-between">
+      <div className="fixed left-0 top-0 z-50 flex h-screen w-[20rem] flex-col items-start border-r-2 bg-[#41644A] p-4 pt-[5rem] text-start">
         <Button
           onClick={() => console.log(currentPath)}
-          className={`mb-2 flex h-[4rem] w-full gap-2 border-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/staff'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? '  rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >
@@ -29,9 +29,9 @@ export default function StaffRoute() {
         </Button>
         <Button
           onClick={() => console.log(currentPath)}
-          className={`mb-2 flex h-[4rem] w-full gap-2 border-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/staff/resto'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? '  rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >
@@ -41,9 +41,9 @@ export default function StaffRoute() {
           </Link>
         </Button>
         <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/staff/driving-range'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? '  rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >

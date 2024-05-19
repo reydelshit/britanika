@@ -313,11 +313,16 @@ export default function Resto() {
   });
 
   return (
-    <div className="relative flex h-screen w-full justify-between border-2">
+    <div className="relative flex h-screen w-full justify-between pl-[20rem]">
       <div className="relative w-full">
-        <h1 className="text-[4rem] font-bold">RESTO SECTION</h1>
+        <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">
+          RESTO SECTION
+        </h1>
 
-        <Button className="my-4" onClick={() => setShowOrders(true)}>
+        <Button
+          className="my-4 bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
+          onClick={() => setShowOrders(true)}
+        >
           SHOW ORDERS
         </Button>
         <div className="flex h-full w-full justify-between gap-2">
@@ -342,7 +347,7 @@ export default function Resto() {
                     </div>
 
                     <span
-                      className={`rounded-md ${prod.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
+                      className={`rounded-md text-white ${prod.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
                     >
                       {prod.availability_status}
                     </span>
@@ -354,7 +359,9 @@ export default function Resto() {
 
                     <AlertDialog>
                       <AlertDialogTrigger>
-                        <Button>Add to cart</Button>
+                        <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
+                          Add to cart
+                        </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
@@ -391,6 +398,7 @@ export default function Resto() {
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
                           <AlertDialogAction
+                            className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
                             onClick={() => handleAddToCart(prod.product_id)}
                           >
                             Continue
@@ -403,92 +411,97 @@ export default function Resto() {
               ))}
           </div>
 
-          <div className="flex h-[80%] w-[30%] flex-col justify-between border-2 p-4">
-            <div className="h-fit">
+          <div className="mt-[-4rem] flex h-fit w-[30%] flex-col justify-between rounded-lg border-2 bg-[#41644A] p-4 text-white">
+            <div className="h-fit  ">
               <h1 className="my-2 text-2xl font-bold">ORDER DETAILS</h1>
               <Label className="text-md mt-2 block font-semibold">
                 {' '}
                 Customer name
               </Label>
-              <Input onChange={(e) => setCustomerName(e.target.value)} />
+              <Input
+                className="bg-white text-black"
+                onChange={(e) => setCustomerName(e.target.value)}
+              />
 
-              <Label className="mt-4 block text-xl font-semibold">Cart</Label>
-              {productOrdersInCart.length > 0 ? (
-                productOrdersInCart.map((ca, index) => (
-                  <div
-                    className="mb-2 flex h-[6rem] items-center justify-between border-b-2"
-                    key={index}
-                  >
-                    <div className="flex w-full gap-2">
-                      <img
-                        className="h-[4rem] w-[4rem] rounded-md bg-gray-100 object-cover"
-                        src={ca.product_image}
-                        alt={ca.product_name}
-                      />
-                      <div>
-                        <h1 className="font-bold">{ca.product_name}</h1>
-                        <p>Qty: {ca.qty}</p>
+              <div className="my-[2rem]  rounded-md bg-white p-4 text-black">
+                <Label className="mt-4 block text-xl font-semibold">Cart</Label>
+                {productOrdersInCart.length > 0 ? (
+                  productOrdersInCart.map((ca, index) => (
+                    <div
+                      className="mb-2 flex h-[6rem] items-center justify-between border-b-2"
+                      key={index}
+                    >
+                      <div className="flex w-full gap-2">
+                        <img
+                          className="h-[4rem] w-[4rem] rounded-md bg-gray-100 object-cover"
+                          src={ca.product_image}
+                          alt={ca.product_name}
+                        />
+                        <div>
+                          <h1 className="font-bold">{ca.product_name}</h1>
+                          <p>Qty: {ca.qty}</p>
 
-                        <div className="flex gap-2">
-                          <span
-                            onClick={() =>
-                              handleQuantity(
-                                index,
-                                ca.qty,
-                                ca.cart_id,
-                                'substract',
-                              )
-                            }
-                            className="cursor-pointer text-2xl font-bold"
-                          >
-                            -
-                          </span>
+                          <div className="flex gap-2">
+                            <span
+                              onClick={() =>
+                                handleQuantity(
+                                  index,
+                                  ca.qty,
+                                  ca.cart_id,
+                                  'substract',
+                                )
+                              }
+                              className="cursor-pointer text-2xl font-bold"
+                            >
+                              -
+                            </span>
 
-                          <Input
-                            onChange={(e) =>
-                              setQuantity(parseInt(e.target.value))
-                            }
-                            value={
-                              index + 1 === quantityIndex ? quantity : ca.qty
-                            }
-                            className="w-[70%] border-2 bg-white text-center"
-                            type="number"
-                          />
+                            <Input
+                              onChange={(e) =>
+                                setQuantity(parseInt(e.target.value))
+                              }
+                              value={
+                                index + 1 === quantityIndex ? quantity : ca.qty
+                              }
+                              className="w-[70%] border-2 bg-white text-center"
+                              type="number"
+                            />
 
-                          <span
-                            onClick={() =>
-                              handleQuantity(index, ca.qty, ca.cart_id, 'add')
-                            }
-                            className="cursor-pointer text-2xl font-bold"
-                          >
-                            +
-                          </span>
+                            <span
+                              onClick={() =>
+                                handleQuantity(index, ca.qty, ca.cart_id, 'add')
+                              }
+                              className="cursor-pointer text-2xl font-bold"
+                            >
+                              +
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex h-full flex-col items-center justify-around">
-                      <span
-                        onClick={() => handleDeleteCartProduct(ca.cart_id)}
-                        className="cursor-pointer"
-                      >
-                        <AiOutlineDelete className="text-3xl text-[#38bdf8]" />
-                      </span>
-                      <span className="block font-bold">
-                        ₱{ca.product_price * ca.qty}
-                      </span>
+                      <div className="flex h-full flex-col items-center justify-around">
+                        <span
+                          onClick={() => handleDeleteCartProduct(ca.cart_id)}
+                          className="cursor-pointer"
+                        >
+                          <AiOutlineDelete className="text-3xl text-[#41644A]" />
+                        </span>
+                        <span className="block font-bold">
+                          ₱{ca.product_price * ca.qty}
+                        </span>
+                      </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="flex h-[9rem] items-center justify-center">
+                    <h1 className="text-1xl font-bold">Cart is empty</h1>
                   </div>
-                ))
-              ) : (
-                <div className="flex h-[9rem] items-center justify-center">
-                  <h1 className="text-1xl font-bold">Cart is empty</h1>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             <div>
-              <div className="flex w-full justify-between rounded-md bg-black p-4 font-bold text-white">
+              <div className="flex w-full justify-between rounded-md bg-white p-4 font-bold text-[#41644A]">
                 <h1>Total</h1>
                 <span>
                   ₱
@@ -500,11 +513,11 @@ export default function Resto() {
               </div>
             </div>
 
-            <div className="flex justify-end">
+            <div className="my-2 flex justify-end">
               <AlertDialog>
                 <AlertDialogTrigger>
                   {' '}
-                  <Button className="my-2 h-[3.5rem] text-2xl font-bold text-white">
+                  <Button className="my-2 h-[3.5rem]  bg-white text-[1.5rem] font-bold text-[#41644A] hover:border-2 hover:border-white hover:bg-[#41644A] hover:text-white">
                     Checkout
                   </Button>
                 </AlertDialogTrigger>
@@ -541,7 +554,7 @@ export default function Resto() {
                                 }
                                 className="cursor-pointer"
                               >
-                                <AiOutlineDelete className="text-3xl text-[#38bdf8]" />
+                                <AiOutlineDelete className="text-3xl text-[#41644A]" />
                               </span>
                               <span className="block font-bold">
                                 ₱{ca.product_price * ca.qty}
@@ -558,9 +571,12 @@ export default function Resto() {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction>
+                    <AlertDialogAction
+                      onClick={() => handleCheckout()}
+                      className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
+                    >
                       {' '}
-                      <Button onClick={() => handleCheckout()}>Checkout</Button>
+                      Checkout
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
@@ -591,7 +607,12 @@ export default function Resto() {
                     </SelectContent>
                   </Select>
                 </div>
-                <Button onClick={() => setShowOrders(false)}>Close</Button>
+                <Button
+                  className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
+                  onClick={() => setShowOrders(false)}
+                >
+                  Close
+                </Button>
               </div>
               <Table className="mx-auto w-[100%] border-2 bg-white">
                 <TableHeader>
@@ -685,7 +706,7 @@ export default function Resto() {
               </Table>
 
               <div className="my-[1rem] flex w-[95%] items-center justify-between">
-                <Button>
+                <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
                   <Link to="/staff/resto/expense">Create Expense</Link>
                 </Button>
                 <span className="block rounded-lg bg-green-500 p-4 font-semibold text-white">

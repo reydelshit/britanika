@@ -171,8 +171,10 @@ const Staff = () => {
   };
 
   return (
-    <div className="h-screen ">
-      <h1 className="text-[4rem] font-bold">STAFFS REGISTRATION</h1>
+    <div className="h-screen pl-[20rem]">
+      <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">
+        STAFFS REGISTRATION
+      </h1>
 
       {showReauth && (
         <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
@@ -209,7 +211,9 @@ const Staff = () => {
 
       <div className="mt-[2rem] flex h-fit gap-4  ">
         <div className="h-full w-[20rem] rounded-lg border-2 p-2 text-center">
-          <h1 className="my-2 text-2xl font-bold ">CREATE STAFF ACCOUNT</h1>
+          <h1 className="my-4 text-2xl font-bold text-[#41644A] ">
+            CREATE STAFF ACCOUNT
+          </h1>
           <form
             onSubmit={handleSubmit}
             className="flex w-full flex-col justify-center"
@@ -255,7 +259,10 @@ const Staff = () => {
 
             {error && <p className="text-red-500">{error}</p>}
 
-            <Button className="mt-[3rem] w-[80%] self-center" type="submit">
+            <Button
+              className="mt-[3rem] w-[80%] self-center bg-[#41644A] uppercase text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
+              type="submit"
+            >
               Register
             </Button>
           </form>

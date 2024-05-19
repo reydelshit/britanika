@@ -61,19 +61,17 @@ export default function AdminRoutes() {
       </span>
 
       {showNotification && (
-        <div className="absolute right-16 top-8 mt-[5rem] min-h-[30rem] w-[30rem] overflow-y-scroll border-2 bg-white p-4">
+        <div className="absolute right-16 top-8 z-50 mt-[5rem] min-h-[30rem] w-[30rem] overflow-y-scroll border-2 bg-white p-4">
           {notifications.length > 0 ? (
             notifications.map((not, index) => (
               <div
                 key={index}
-                className="z-50 flex items-center justify-between gap-2 border-b-2 bg-slate-200 p-2"
+                className="z-50 flex items-center justify-between gap-2 rounded-xl border-b-2 bg-[#41644A] p-2 text-sm  text-white"
               >
-                <p className="w-[70%] break-words text-black">
+                <p className="w-[70%] break-words ">
                   {not.notification_message}
                 </p>
-                <p className="text-black">
-                  {moment(not.created_at).format('LL')}
-                </p>
+                <p>{moment(not.created_at).format('LL')}</p>
               </div>
             ))
           ) : (
@@ -82,12 +80,12 @@ export default function AdminRoutes() {
         </div>
       )}
 
-      <div className="flex h-screen w-[15rem] flex-col items-start border-r-2 p-4 pt-[5rem] text-start">
+      <div className="fixed left-0 top-0 flex h-screen w-[20rem] flex-col items-start border-r-2 bg-[#41644A] p-4 pt-[5rem] text-start">
         <Button
           onClick={() => console.log(currentPath)}
-          className={`mb-2 flex h-[4rem] w-full gap-2 border-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2 bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/admin'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? ' rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >
@@ -97,22 +95,22 @@ export default function AdminRoutes() {
           </Link>
         </Button>
         <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/admin/carts'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? ' rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >
           <Link className="flex" to="/admin/carts">
             {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
-            CARTS
+            DRIVING RANGE
           </Link>
         </Button>
 
         <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/admin/sales-report'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? ' rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >
@@ -123,9 +121,9 @@ export default function AdminRoutes() {
         </Button>
 
         <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/admin/expense'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? ' rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >
@@ -135,22 +133,22 @@ export default function AdminRoutes() {
           </Link>
         </Button>
         <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/admin/stocks'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? ' rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >
           <Link className="flex" to="/admin/stocks">
             {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
-            STOCKS
+            STOCK HISTORY
           </Link>
         </Button>
 
         <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/admin/staffs'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? ' rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >
@@ -161,9 +159,9 @@ export default function AdminRoutes() {
         </Button>
         {/* 
         <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
+          className={`mb-2 flex h-[4rem] w-full gap-2 border-2 bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
             currentPath == '/admin/accountants'
-              ? ' rounded-md bg-blue-500 text-start text-white'
+              ? ' rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
               : ''
           }`}
         >

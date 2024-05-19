@@ -114,32 +114,34 @@ const Admin = () => {
   };
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen w-full pl-[20rem]">
       {showProductForm && (
         <div className="absolute flex h-full w-full items-center justify-center bg-white bg-opacity-80">
           <Addproduct setShowProductForm={setShowProductForm} />
         </div>
       )}
       <div className="h-full">
-        <h1 className="text-[4rem] font-bold">PRODUCTS</h1>
+        <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">PRODUCTS</h1>
 
         <div className="grid grid-cols-4 gap-4">
           {product &&
             product.map((prod, index) => (
               <div
                 key={index}
-                className="flex w-[20rem] flex-col rounded-md border-2 p-4"
+                className="flex w-[20rem] flex-col rounded-xl border-2  p-2 text-black"
               >
                 <Dialog>
-                  <DialogTrigger className="my-2 w-[8rem] self-end">
+                  <DialogTrigger className="my-1 w-[8rem] self-end">
                     {' '}
-                    <Button>Add Stock</Button>
+                    <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
+                      Add Stock
+                    </Button>
                   </DialogTrigger>
                   <DialogContent className="bg-opacity-65">
                     <DialogHeader>
                       <DialogTitle>Add Stock</DialogTitle>
                       <DialogDescription>
-                        <h1 className="rounded-md bg-black p-2 text-white">
+                        <h1 className="rounded-md bg-[#41644A] p-2 text-white">
                           Current Stock: {prod.stocks}
                         </h1>
                         <Input
@@ -182,7 +184,7 @@ const Admin = () => {
                   </div>
 
                   <span
-                    className={`rounded-md ${prod.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
+                    className={`rounded-md text-white ${prod.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
                   >
                     {prod.availability_status}
                   </span>
@@ -198,7 +200,7 @@ const Admin = () => {
                         prod.availability_status,
                       )
                     }
-                    className="uppercase"
+                    className="bg-[#41644A] uppercase text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
                   >
                     SET{' '}
                     {prod.availability_status === 'Available'
@@ -208,7 +210,9 @@ const Admin = () => {
 
                   <AlertDialog>
                     <AlertDialogTrigger>
-                      <Button>DELETE</Button>
+                      <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
+                        DELETE
+                      </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
@@ -236,7 +240,7 @@ const Admin = () => {
 
           <div
             onClick={() => setShowProductForm(true)}
-            className="border- flex w-[20rem] cursor-pointer flex-col items-center justify-center rounded-md border-2 p-4 text-[5rem] font-bold hover:bg-yellow-50"
+            className="border- flex w-[20rem] cursor-pointer flex-col items-center justify-center rounded-md border-2 p-4 text-[5rem] font-bold hover:bg-[#41644A] hover:text-white"
           >
             +
           </div>

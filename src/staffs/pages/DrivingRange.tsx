@@ -86,15 +86,17 @@ export default function DrivingRange() {
   });
 
   return (
-    <div className="flex w-full justify-between border-2">
+    <div className=" flex h-screen w-full justify-between border-2 pl-[20rem]">
       {showRangeForm && (
         <div className="absolute flex h-full w-full items-center justify-center  bg-white bg-opacity-80">
           <AddRangeStaff setShowRangeForm={setShowRangeForm} />
         </div>
       )}
 
-      <div>
-        <h1 className="text-[4rem] font-bold">ORDER RANGE SECTION</h1>
+      <div className="h-full">
+        <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">
+          ORDER RANGE SECTION
+        </h1>
 
         <div className="grid grid-cols-4 gap-4">
           {drivingRange &&
@@ -113,7 +115,7 @@ export default function DrivingRange() {
                     <h1 className="my-2 font-semibold">{range.range_number}</h1>
 
                     <span
-                      className={`rounded-md ${range.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
+                      className={`rounded-md text-white ${range.availability_status === 'Available' ? 'bg-green-500' : 'bg-red-500'}  p-2 font-bold uppercase`}
                     >
                       {range.availability_status}
                     </span>
@@ -127,7 +129,7 @@ export default function DrivingRange() {
         <div className="mt-[rem] w-full">
           <div className="flex justify-end">
             <Button
-              className="my-[2rem] h-[3.5rem]  text-2xl font-bold text-white"
+              className="my-[2rem] h-[3.5rem]  bg-[#41644A] text-2xl font-bold text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
               onClick={() => setShowRangeForm(true)}
             >
               Add Customer
