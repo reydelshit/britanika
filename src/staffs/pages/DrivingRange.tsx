@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   Table,
@@ -86,7 +86,7 @@ export default function DrivingRange() {
   });
 
   return (
-    <div className=" flex h-screen w-full justify-between border-2 pl-[20rem]">
+    <div className=" flex h-screen w-full flex-col justify-between border-2 pl-[20rem]">
       {showRangeForm && (
         <div className="absolute flex h-full w-full items-center justify-center  bg-white bg-opacity-80">
           <AddRangeStaff setShowRangeForm={setShowRangeForm} />
@@ -127,9 +127,13 @@ export default function DrivingRange() {
         </div>
 
         <div className="mt-[rem] w-full">
-          <div className="flex justify-end">
+          <div className="flex items-center justify-between">
+            <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
+              <Link to="/staff/resto/expense">Create Expense</Link>
+            </Button>
+
             <Button
-              className="my-[2rem] h-[3.5rem]  bg-[#41644A] text-2xl font-bold text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
+              className="my-[2rem] bg-[#41644A] font-semibold text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
               onClick={() => setShowRangeForm(true)}
             >
               Add Customer

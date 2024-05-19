@@ -39,12 +39,23 @@ type Order = {
   quantity: number;
 };
 
+type OrderDriving = {
+  order_range_id: string;
+  customer_name: string;
+  range_id: string;
+  amount: number;
+  created_at: Date;
+  range_number: string;
+};
+
 const SalesReport = () => {
   const [cartOrders, setCartOrders] = useState<OrderCarts[]>([]);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
   const [selectedDateFilter, setSelectedDateFilter] = useState(
     'Daily' as string,
   );
+
+  const [drivingOrder, setDrivingOrders] = useState<OrderDriving[]>([]);
 
   const componentRef = useRef<HTMLTableElement>(null);
   const handlePrint = useReactToPrint({
@@ -55,11 +66,11 @@ const SalesReport = () => {
     content: () => componentRef2.current || null,
   });
 
-  const getALlCartOrders = () => {
+  const getALlrangeOrders = () => {
     axios
-      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order-cart.php`)
+      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order-range.php`)
       .then((res) => {
-        setCartOrders(res.data);
+        setDrivingOrders(res.data);
       });
   };
 
@@ -74,7 +85,7 @@ const SalesReport = () => {
 
   useEffect(() => {
     getALlOrders();
-    getALlCartOrders();
+    getALlrangeOrders();
   }, []);
 
   const handleFilterDate = (value: string) => {
@@ -104,7 +115,7 @@ const SalesReport = () => {
     }
   });
 
-  const filteredCarts = cartOrders.filter((ord) => {
+  const filteredCarts = drivingOrder.filter((ord) => {
     const orderDate = moment(ord.created_at);
     const currentDate = moment();
 
@@ -256,7 +267,7 @@ const SalesReport = () => {
                       {cart.customer_name}
                     </TableCell>
                     <TableCell className="text-center">
-                      {cart.cart_number}
+                      {cart.range_number}
                     </TableCell>
 
                     <TableCell className="text-center">

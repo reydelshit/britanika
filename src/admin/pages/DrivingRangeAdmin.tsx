@@ -57,11 +57,14 @@ const DrivingRangeAdmin = () => {
 
   const handleDelete = (id: number) => {
     axios
-      .delete(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`, {
-        data: {
-          cart_id: id,
+      .delete(
+        `${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/driving_range.php`,
+        {
+          data: {
+            range_id: id,
+          },
         },
-      })
+      )
       .then((res) => {
         console.log(res.data);
         if (res.data.status === 'success') {
@@ -72,8 +75,8 @@ const DrivingRangeAdmin = () => {
 
   const handleChangeStatus = (id: number, availability: string) => {
     axios
-      .put(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`, {
-        cart_id: id,
+      .put(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/driving_range.php`, {
+        range_id: id,
         availability_status:
           availability === 'Available' ? 'Not Available' : 'Available',
       })
