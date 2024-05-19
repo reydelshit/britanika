@@ -49,7 +49,9 @@ const Stocks = () => {
 
   return (
     <div className="h-screen pl-[20rem]">
-      <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">STOCKS</h1>
+      <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">
+        STOCKS HISTORY
+      </h1>
 
       <div className="mt-[1rem] w-full">
         <div className="my-4 flex justify-end gap-4 px-4">

@@ -129,7 +129,7 @@ const Expense = () => {
                     </TableCell>
 
                     <TableCell className="text-center">
-                      <Button>
+                      <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
                         <Link to={`/admin/expense/${sto.expense_id}`}>
                           View Details
                         </Link>

@@ -158,7 +158,7 @@ const SalesReport = () => {
       <div ref={componentRef2} className="mt-[1rem] w-full">
         <div className="my-2 flex justify-between">
           <h1 className="text-[2rem] font-bold text-[#41644A]">
-            RESTO ORDERS (only served is recorded)
+            RESTO ORDERS (only served order is recorded in sales)
           </h1>
 
           <Button
