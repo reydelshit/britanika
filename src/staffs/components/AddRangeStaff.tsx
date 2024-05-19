@@ -22,12 +22,12 @@ type Dishes = {
   availability_status: string;
 };
 
-type Carts = {
-  cart_id: number;
-  cart_number: string;
+type DrivingRange = {
+  range_id: number;
+  range_number: string;
   type: string;
   color: string;
-  cart_image: string;
+  range_image: string;
   price: number;
   availability_status: string;
 };
@@ -35,57 +35,58 @@ type Carts = {
 type ChangeEvent =
   | React.ChangeEvent<HTMLInputElement>
   | React.ChangeEvent<HTMLTextAreaElement>;
-export default function AddCartStaff({
+export default function AddRangeStaff({
   setShowRangeForm,
 }: {
   setShowRangeForm: (value: boolean) => void;
 }) {
-  const [cartsInput, setCartsInput] = useState([]);
+  const [rangeInput, setRangeInput] = useState([]);
 
   const { toast } = useToast();
   const [error, setError] = useState('' as string);
-  const [selectedCart, setSelectedCart] = useState('' as string);
-  const [selectedCartID, setSelectedCartID] = useState('' as string);
+  const [selectedRange, setSelectedRange] = useState('' as string);
+  const [selectedRangeID, setSelectedRangeID] = useState('' as string);
   const [price, setPrice] = useState(0);
 
   const [change, setChange] = useState(0);
 
-  const [searchCart, setSearchCart] = useState('' as string);
-  const [carts, setCarts] = useState<Carts[]>([]);
+  const [searchRange, setSearchRange] = useState('' as string);
+  const [drivingRange, setDrivingRange] = useState<DrivingRange[]>([]);
 
-  const getALlCarts = () => {
+  const getALlDrivingRange = () => {
     axios
-      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/carts.php`)
+      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/driving_range.php`)
       .then((res) => {
-        setCarts(res.data);
+        console.log(res.data);
+        setDrivingRange(res.data);
       });
   };
 
   useEffect(() => {
-    getALlCarts();
+    getALlDrivingRange();
   }, []);
 
-  const handleCart = (value: string) => {
-    // extract the cart id from the value
-    // cart.cart_number + '/' + cart.cart_id + ' - ' + cart.price
-    const cartId = value.split(' - ')[0].split('/')[1];
-    console.log(cartId, 'sss');
+  const handlerange = (value: string) => {
+    // extract the range id from the value
+    // range.range_number + '/' + range.range_id + ' - ' + range.price
+    const rangeId = value.split(' - ')[0].split('/')[1];
+    console.log(rangeId, 'sss');
 
-    setSelectedCartID(cartId);
-    setSelectedCart(value);
+    setSelectedRangeID(rangeId);
+    setSelectedRange(value);
 
     // console.log(dishId);
 
     // extract price after -
-    const cartPrice = value.split(' - ')[1];
-    console.log(cartPrice);
-    setPrice(parseInt(cartPrice));
+    const rangePrice = value.split(' - ')[1];
+    console.log(rangePrice);
+    setPrice(parseInt(rangePrice));
   };
 
   const handleChange = (e: ChangeEvent) => {
     const value = e.target.value;
     const name = e.target.name;
-    setCartsInput((values) => ({ ...values, [name]: value }));
+    setRangeInput((values) => ({ ...values, [name]: value }));
   };
 
   const handleChangeAmount = (e: ChangeEvent) => {
@@ -97,19 +98,19 @@ export default function AddCartStaff({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(carts);
+    // console.log(range);
 
-    if (!cartsInput) {
+    if (!rangeInput) {
       setError('Please fill up all fields');
     }
 
     axios
-      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order-cart.php`, {
+      .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order-range.php`, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        ...cartsInput,
-        cart_id: selectedCartID,
+        ...rangeInput,
+        range_id: selectedRangeID,
         amount: price,
       })
       .then((res) => {
@@ -131,42 +132,42 @@ export default function AddCartStaff({
         <form className="w-full px-4 text-start" onSubmit={handleSubmit}>
           <div className=" w-full text-start">
             <Label className="my-4 block text-2xl font-semibold">
-              Carts Form
+              Driving Range Form
             </Label>
 
-            <Select required value={selectedCart} onValueChange={handleCart}>
+            <Select required value={selectedRange} onValueChange={handlerange}>
               <SelectTrigger className="h-[5rem]">
-                <SelectValue placeholder="Carts.." />
+                <SelectValue placeholder="ranges.." />
               </SelectTrigger>
               <SelectContent>
                 <Input
-                  placeholder="search cart"
-                  onChange={(e) => setSearchCart(e.target.value)}
+                  placeholder="search range"
+                  onChange={(e) => setSearchRange(e.target.value)}
                 />
-                {carts
-                  .filter((cart) =>
-                    cart.cart_number.toLowerCase().includes(searchCart),
+                {drivingRange
+                  .filter((range) =>
+                    range.range_number.toLowerCase().includes(searchRange),
                   )
-                  .map((cart, index) => (
+                  .map((range, index) => (
                     <SelectItem
                       key={index}
                       value={
-                        cart.cart_number +
+                        range.range_number +
                         '/' +
-                        cart.cart_id +
+                        range.range_id +
                         ' - ' +
-                        cart.price
+                        range.price
                       }
                     >
                       <div className="flex items-center gap-4">
                         <img
-                          src={cart.cart_image}
+                          src={range.range_image}
                           className="h-[4rem] w-[4rem]"
                           alt="pic"
                         />{' '}
                         <p className="font-bold">
                           {' '}
-                          {cart.cart_number} - ₱ {cart.price}
+                          {range.range_number} - ₱ {range.price}
                         </p>
                       </div>
                     </SelectItem>

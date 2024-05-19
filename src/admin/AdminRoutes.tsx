@@ -159,7 +159,7 @@ export default function AdminRoutes() {
             STAFFS
           </Link>
         </Button>
-
+        {/* 
         <Button
           className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
             currentPath == '/admin/accountants'
@@ -168,10 +168,9 @@ export default function AdminRoutes() {
           }`}
         >
           <Link className="flex" to="/admin/accountants">
-            {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
             ACCOUNTANTS
           </Link>
-        </Button>
+        </Button> */}
       </div>
       <div className="w-full justify-center px-4">
         <Routes>
@@ -182,7 +181,7 @@ export default function AdminRoutes() {
           <Route path="/expense" element={<Expense />} />
 
           <Route path="/staffs" element={<Staff />} />
-          <Route path="/accountants" index element={<Accountants />} />
+          {/* <Route path="/accountants" index element={<Accountants />} /> */}
         </Routes>
       </div>
     </div>

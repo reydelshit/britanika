@@ -93,7 +93,7 @@ export default function AddProduct({
             className="mb-4  h-[20rem] w-full rounded-lg object-cover"
             src={image! ? image! : Lgo}
           />
-          <Label className="mb-2 text-start">product image</Label>
+          <Label className="mb-2 text-start">Product image</Label>
 
           <Input
             type="file"

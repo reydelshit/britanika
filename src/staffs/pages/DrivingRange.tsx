@@ -37,6 +37,12 @@ export default function DrivingRange() {
 
   const [drivingRange, setDrivingRange] = useState<DrivingRange[]>([]);
   const [showRangeForm, setShowRangeForm] = useState(false);
+  const dailyFilter = 'Daily' as
+    | string
+    | 'Weekly'
+    | 'Monthly'
+    | 'Yearly'
+    | 'All';
 
   const getALlranges = () => {
     axios
@@ -58,6 +64,26 @@ export default function DrivingRange() {
     getALlrangeOrders();
     getALlranges();
   }, []);
+
+  const filteredOrders = drivingOrder.filter((ord) => {
+    const orderDate = moment(ord.created_at);
+    const currentDate = moment();
+
+    switch (dailyFilter) {
+      case 'Daily':
+        return orderDate.isSame(currentDate, 'day');
+      case 'Weekly':
+        const startOfWeek = currentDate.clone().startOf('week');
+        const endOfWeek = currentDate.clone().endOf('week');
+        return orderDate.isBetween(startOfWeek, endOfWeek, 'day', '[]');
+      case 'Monthly':
+        return orderDate.isSame(currentDate, 'month');
+      case 'Yearly':
+        return orderDate.isSame(currentDate, 'year');
+      default:
+        return true;
+    }
+  });
 
   return (
     <div className="flex w-full justify-between border-2">
@@ -122,8 +148,8 @@ export default function DrivingRange() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {drivingOrder.length > 0 ? (
-                  drivingOrder.map((range, index) => (
+                {filteredOrders.length > 0 ? (
+                  filteredOrders.map((range, index) => (
                     <TableRow key={index}>
                       <TableCell className="text-center">
                         {range.customer_name}

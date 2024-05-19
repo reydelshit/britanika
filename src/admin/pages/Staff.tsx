@@ -10,10 +10,22 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+
 import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 type LocationType = {
   barangay_name: string;
@@ -300,12 +312,32 @@ const Staff = () => {
                       {moment(staff.created_at).format('LL')}
                     </TableCell>
                     <TableCell className="text-center">
-                      <Button
-                        onClick={() => handleDelete(staff.user_id)}
-                        className="bg-red-600"
-                      >
-                        Delete
-                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <Button className="bg-red-600">Delete</Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will
+                              permanently delete the account and remove the data
+                              from the servers.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                            <AlertDialogAction
+                              onClick={() => handleDelete(staff.user_id)}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 ))

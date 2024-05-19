@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import {
   Select,
@@ -55,16 +55,6 @@ type Orders = {
   status: string;
 };
 
-type Order = {
-  order_id: string;
-  order_customer_name: string;
-  amount: number;
-  created_at: Date;
-  status: string;
-  product_id: string;
-  quantity: number;
-};
-
 type Cart = {
   cart_id: number;
   product_id: number;
@@ -83,6 +73,7 @@ export default function Resto() {
   const [quantity, setQuantity] = useState(0);
   const [customerName, setCustomerName] = useState('');
   const user_id = localStorage.getItem('user_id_britanika');
+  const [selectedDateFilter, setSelectedDateFilter] = useState('Daily');
 
   const handleFetchCart = () => {
     console.log(user_id);
@@ -266,6 +257,7 @@ export default function Resto() {
             title: 'Order: Added Successfully',
             description: moment().format('LLLL'),
           });
+          setCustomerName('');
         } else {
           toast({
             variant: 'destructive',
@@ -273,8 +265,6 @@ export default function Resto() {
             description: moment().format('LLLL'),
           });
         }
-
-        setCustomerName('');
 
         handleFetchCart();
       });
@@ -294,6 +284,33 @@ export default function Resto() {
         getALlOrders();
       });
   };
+
+  const handleFilterDate = (value: string) => {
+    console.log(value);
+    setSelectedDateFilter(value);
+
+    console.log(value);
+  };
+
+  const filteredOrders = allOrders.filter((ord) => {
+    const orderDate = moment(ord.created_at);
+    const currentDate = moment();
+
+    switch (selectedDateFilter) {
+      case 'Daily':
+        return orderDate.isSame(currentDate, 'day');
+      case 'Weekly':
+        const startOfWeek = currentDate.clone().startOf('week');
+        const endOfWeek = currentDate.clone().endOf('week');
+        return orderDate.isBetween(startOfWeek, endOfWeek, 'day', '[]');
+      case 'Monthly':
+        return orderDate.isSame(currentDate, 'month');
+      case 'Yearly':
+        return orderDate.isSame(currentDate, 'year');
+      default:
+        return true;
+    }
+  });
 
   return (
     <div className="relative flex h-screen w-full justify-between border-2">
@@ -496,6 +513,9 @@ export default function Resto() {
                     <AlertDialogTitle>Checkout Confirmation</AlertDialogTitle>
                     <AlertDialogDescription>
                       Confirm Products
+                      <h1 className="my-2 font-semibold">
+                        Customer: {customerName}
+                      </h1>
                       {productOrdersInCart.length > 0 ? (
                         productOrdersInCart.map((ca, index) => (
                           <div
@@ -553,7 +573,24 @@ export default function Resto() {
           <div className="absolute top-0 mt-[rem] flex h-full w-full flex-col items-center justify-center bg-white bg-opacity-80">
             <div className="mt-[1rem] flex w-[70%] flex-col border-2 bg-white p-4">
               <div className="my-4 flex w-full items-center justify-between">
-                <h1 className="font-bold">ORDERS</h1>
+                <div className="flex flex-col">
+                  <h1 className="my-2 font-semibold">
+                    ORDERS (only display todays order)
+                  </h1>
+
+                  <Select onValueChange={handleFilterDate}>
+                    <SelectTrigger className=" w-[15rem] ">
+                      <SelectValue placeholder="Filter" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {/* <SelectItem value="All">All</SelectItem> */}
+                      <SelectItem value="Daily">Daily</SelectItem>
+                      {/* <SelectItem value="Weekly">Weekly</SelectItem>
+                      <SelectItem value="Monthly">Monthly</SelectItem>
+                      <SelectItem value="Yearly">Yearly</SelectItem> */}
+                    </SelectContent>
+                  </Select>
+                </div>
                 <Button onClick={() => setShowOrders(false)}>Close</Button>
               </div>
               <Table className="mx-auto w-[100%] border-2 bg-white">
@@ -570,8 +607,8 @@ export default function Resto() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {allOrders.length > 0 ? (
-                    allOrders
+                  {filteredOrders.length > 0 ? (
+                    filteredOrders
                       .sort((a, b) => {
                         if (
                           a.status.toLowerCase().includes('pending') &&
@@ -647,10 +684,13 @@ export default function Resto() {
                 </TableBody>
               </Table>
 
-              <div className="my-[1rem] flex w-[95%] justify-end">
+              <div className="my-[1rem] flex w-[95%] items-center justify-between">
+                <Button>
+                  <Link to="/staff/resto/expense">Create Expense</Link>
+                </Button>
                 <span className="block rounded-lg bg-green-500 p-4 font-semibold text-white">
-                  CART SALES: ₱{' '}
-                  {allOrders
+                  RESTO TODAY SALES: ₱{' '}
+                  {filteredOrders
                     .filter((ord) =>
                       ord.status.toLowerCase().includes('served'),
                     )

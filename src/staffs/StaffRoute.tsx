@@ -5,6 +5,7 @@ import Resto from './pages/Resto';
 import StaffMain from './pages/Resto';
 import Dashboard from './Dashboard';
 import DrivingRange from './pages/DrivingRange';
+import ExpenseForm from './pages/ExpenseForm';
 
 export default function StaffRoute() {
   const accountType = localStorage.getItem('type');
@@ -51,24 +52,12 @@ export default function StaffRoute() {
             DRIVING RANGE
           </Link>
         </Button>
-
-        <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2 p-1 text-2xl font-bold ${
-            currentPath == '/staff/expense'
-              ? ' rounded-md bg-blue-500 text-start text-white'
-              : ''
-          }`}
-        >
-          <Link className="flex" to="/staff/expense">
-            {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
-            EXPENSE
-          </Link>
-        </Button>
       </div>
       <div className="w-full justify-center px-4">
         <Routes>
           <Route path="/" index element={<Dashboard />} />
           <Route path="/resto" element={<Resto />} />
+          <Route path="/resto/expense" element={<ExpenseForm />} />
           <Route path="/driving-range" element={<DrivingRange />} />
         </Routes>
       </div>

@@ -3,15 +3,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Addproduct from './components/AddProduct';
 
-type Product = {
-  product_id: number;
-  product_name: string;
-  product_image: string;
-  product_price: number;
-  availability_status: string;
-  stocks: number;
-};
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,6 +25,15 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+
+type Product = {
+  product_id: number;
+  product_name: string;
+  product_image: string;
+  product_price: number;
+  availability_status: string;
+  stocks: number;
+};
 
 const Admin = () => {
   const [product, setProduct] = useState<Product[]>([]);
