@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -24,7 +30,7 @@ type Stock = {
 
 const Stocks = () => {
   const [stocks, setStocks] = useState<Stock[]>([]);
-
+  const [selectedStockFilter, setSelectedStockFilter] = useState('All');
   const getALlStocks = () => {
     axios
       .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/stocks.php`)
@@ -37,11 +43,28 @@ const Stocks = () => {
     getALlStocks();
   }, []);
 
+  const handleFilterStocks = (value: string) => {
+    setSelectedStockFilter(value);
+  };
+
   return (
     <div className="h-screen pl-[20rem]">
       <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">STOCKS</h1>
 
       <div className="mt-[1rem] w-full">
+        <div className="my-4 flex justify-end gap-4 px-4">
+          <Select onValueChange={handleFilterStocks}>
+            <SelectTrigger className=" w-[15rem] ">
+              <SelectValue placeholder="Filter" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All">All</SelectItem>
+              <SelectItem value="Stock In">Stock In</SelectItem>
+              <SelectItem value="Stock Out">Stock Out</SelectItem>
+              <SelectItem value="Initial Stock">Initial Stock</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <Table className="mx-auto w-[100%] border-2 bg-white">
           <TableHeader>
             <TableRow>
@@ -57,33 +80,41 @@ const Stocks = () => {
           </TableHeader>
           <TableBody>
             {stocks.length > 0 ? (
-              stocks.map((sto, index) => (
-                <TableRow key={index}>
-                  <TableCell className="flex items-center justify-center text-center">
-                    <img
-                      className="h-[4rem] w-[4rem] rounded-lg"
-                      src={sto.product_image}
-                      alt="image"
-                    />
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {sto.product_name}
-                  </TableCell>
+              stocks
+                .filter(
+                  (sto) =>
+                    sto.stock_type
+                      .toLowerCase()
+                      .includes(selectedStockFilter.toLowerCase()) ||
+                    selectedStockFilter === 'All',
+                )
+                .map((sto, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="flex items-center justify-center text-center">
+                      <img
+                        className="h-[4rem] w-[4rem] rounded-lg"
+                        src={sto.product_image}
+                        alt="image"
+                      />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {sto.product_name}
+                    </TableCell>
 
-                  {/* <TableCell className="text-center">
+                    {/* <TableCell className="text-center">
                     {sto.stock_type}
                   </TableCell> */}
-                  <TableCell className="text-center">
-                    {sto.stock_type} - {sto.quantity}
-                  </TableCell>
+                    <TableCell className="text-center">
+                      {sto.stock_type} - {sto.quantity}
+                    </TableCell>
 
-                  <TableCell className="text-center">{sto.stocks}</TableCell>
+                    <TableCell className="text-center">{sto.stocks}</TableCell>
 
-                  <TableCell className="text-center">
-                    {moment(sto.created_at).format('LL')}
-                  </TableCell>
-                </TableRow>
-              ))
+                    <TableCell className="text-center">
+                      {moment(sto.created_at).format('LL')}
+                    </TableCell>
+                  </TableRow>
+                ))
             ) : (
               <TableRow>
                 <TableCell colSpan={5} className="text-center">

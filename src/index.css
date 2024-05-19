@@ -20,6 +20,11 @@ body {
   .no-print {
     display: none;
   }
+
+  .no-margin {
+    padding-left: 2rem !important;
+    padding: 2rem;
+  }
 }
 
 @layer base {

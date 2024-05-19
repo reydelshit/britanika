@@ -120,26 +120,6 @@ const ExpenseForm = () => {
     Promise.all([getALlProducts(), getALlOrders(), getALlranges()]);
   }, []);
 
-  const filteredOrders = allOrders.filter((ord) => {
-    const orderDate = moment(ord.created_at);
-    const currentDate = moment();
-
-    switch (dailyFilter) {
-      case 'Daily':
-        return orderDate.isSame(currentDate, 'day');
-      case 'Weekly':
-        const startOfWeek = currentDate.clone().startOf('week');
-        const endOfWeek = currentDate.clone().endOf('week');
-        return orderDate.isBetween(startOfWeek, endOfWeek, 'day', '[]');
-      case 'Monthly':
-        return orderDate.isSame(currentDate, 'month');
-      case 'Yearly':
-        return orderDate.isSame(currentDate, 'year');
-      default:
-        return true;
-    }
-  });
-
   const handleSubmitProduct = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

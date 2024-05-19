@@ -280,7 +280,7 @@ const SalesReport = () => {
 
           <div className="my-[1rem] flex w-[95%] justify-end">
             <span className="block rounded-lg bg-green-500 p-4 font-semibold text-white">
-              CART SALES: ₱{' '}
+              DRIVING RANGE SALES: ₱{' '}
               {filteredCarts.reduce((acc, ord) => acc + ord.amount, 0)}
             </span>
           </div>

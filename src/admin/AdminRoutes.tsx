@@ -1,22 +1,17 @@
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
+import moment from 'moment';
+import { useState } from 'react';
+import { IoIosNotificationsOutline } from 'react-icons/io';
+import { RiCloseFill } from 'react-icons/ri';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import Admin from './Admin';
 import Carts from './pages/DrivingRangeAdmin';
-import Staff from './pages/Staff';
-import Accountants from './pages/Accountants';
-import { IoIosNotificationsOutline } from 'react-icons/io';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { RiCloseFill } from 'react-icons/ri';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import moment from 'moment';
-import SalesReport from './pages/SalesReport';
-import Stocks from './pages/Stocks';
 import Expense from './pages/Expense';
+import ExpenseView from './pages/ExpenseView';
+import SalesReport from './pages/SalesReport';
+import Staff from './pages/Staff';
+import Stocks from './pages/Stocks';
 
 type Notification = {
   notification_id: number;
@@ -61,7 +56,7 @@ export default function AdminRoutes() {
       </span>
 
       {showNotification && (
-        <div className="absolute right-16 top-8 z-50 mt-[5rem] min-h-[30rem] w-[30rem] overflow-y-scroll border-2 bg-white p-4">
+        <div className="no-print absolute right-16 top-8 z-50 mt-[5rem] min-h-[30rem] w-[30rem] overflow-y-scroll border-2 bg-white p-4">
           {notifications.length > 0 ? (
             notifications.map((not, index) => (
               <div
@@ -177,6 +172,7 @@ export default function AdminRoutes() {
           <Route path="/stocks" element={<Stocks />} />
           <Route path="/sales-report" element={<SalesReport />} />
           <Route path="/expense" element={<Expense />} />
+          <Route path="/expense/:id" element={<ExpenseView />} />
 
           <Route path="/staffs" element={<Staff />} />
           {/* <Route path="/accountants" index element={<Accountants />} /> */}
