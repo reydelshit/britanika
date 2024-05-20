@@ -1,14 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
-import CartStaff from './pages/DrivingRange';
-import Resto from './pages/Resto';
-import StaffMain from './pages/Resto';
 import Dashboard from './Dashboard';
 import DrivingRange from './pages/DrivingRange';
 import ExpenseForm from './pages/ExpenseForm';
+import Resto from './pages/Resto';
 
 export default function StaffRoute() {
-  const accountType = localStorage.getItem('type');
+  const staff_type = localStorage.getItem('staff_type');
   const currentPath = useLocation().pathname;
 
   return (
@@ -27,31 +25,37 @@ export default function StaffRoute() {
             DASHBOARD
           </Link>
         </Button>
-        <Button
-          onClick={() => console.log(currentPath)}
-          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
-            currentPath == '/staff/resto'
-              ? '  rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
-              : ''
-          }`}
-        >
-          <Link className="flex" to="/staff/resto">
-            {/* <RistaffLine className="h-[1.5rem] w-[2rem]" /> */}
-            RESTO
-          </Link>
-        </Button>
-        <Button
-          className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
-            currentPath == '/staff/driving-range'
-              ? '  rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
-              : ''
-          }`}
-        >
-          <Link className="flex" to="/staff/driving-range">
-            {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
-            DRIVING RANGE
-          </Link>
-        </Button>
+
+        {staff_type == 'resto' && (
+          <Button
+            onClick={() => console.log(currentPath)}
+            className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
+              currentPath == '/staff/resto'
+                ? '  rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
+                : ''
+            }`}
+          >
+            <Link className="flex" to="/staff/resto">
+              {/* <RistaffLine className="h-[1.5rem] w-[2rem]" /> */}
+              RESTO
+            </Link>
+          </Button>
+        )}
+
+        {staff_type == 'driving-range' && (
+          <Button
+            className={`mb-2 flex h-[4rem] w-full gap-2  bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
+              currentPath == '/staff/driving-range'
+                ? '  rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
+                : ''
+            }`}
+          >
+            <Link className="flex" to="/staff/driving-range">
+              {/* <AiOutlineDropbox className="h-[1.5rem] w-[2rem]" /> */}
+              DRIVING RANGE
+            </Link>
+          </Button>
+        )}
       </div>
       <div className="w-full justify-center px-4">
         <Routes>

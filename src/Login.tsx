@@ -57,6 +57,16 @@ export default function Login() {
           const isStaff = res.data[0].account_type === 'staff' ? true : false;
           const isAccountant =
             res.data[0].account_type === 'accountants' ? true : false;
+          console.log(res.data[0].if_staff_type, 'ss');
+          String(res.data[0].if_staff_type)
+            .toLocaleLowerCase()
+            .includes('resto')
+            ? localStorage.setItem('staff_type', 'resto')
+            : String(res.data[0].if_staff_type)
+                  .toLocaleLowerCase()
+                  .includes('driving')
+              ? localStorage.setItem('staff_type', 'driving-range')
+              : localStorage.setItem('staff_type', 'n/a');
 
           // console.log(res.data[0].account_type);
 

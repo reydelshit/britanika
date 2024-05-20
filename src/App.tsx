@@ -19,6 +19,8 @@ function App() {
     localStorage.removeItem('user_id_britanika');
     localStorage.removeItem('type');
     localStorage.removeItem('britanika_reauth');
+    localStorage.removeItem('staff_type');
+
     navigate('/', { replace: true });
   };
 

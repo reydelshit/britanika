@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react';
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -10,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import React, { useEffect, useState } from 'react';
 
 import {
   AlertDialog,
@@ -27,11 +33,6 @@ import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
 import moment from 'moment';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-type LocationType = {
-  barangay_name: string;
-  created_at: string;
-  location_id: number;
-};
 
 type staffType = {
   user_id: number;
@@ -39,16 +40,15 @@ type staffType = {
   username: string;
   password: string;
   created_at: string;
+  if_staff_type: string;
 };
 
 const Staff = () => {
-  const [locations, setLocations] = useState<LocationType[]>([]);
-  const [barangay, setBarangay] = useState('');
   const [user, setUser] = useState({
     username: '',
     password: '',
   });
-
+  const [staffType, setStaffType] = useState('' as string);
   const user_id = localStorage.getItem('user_id_britanika');
   const [error, setError] = useState('');
 
@@ -81,8 +81,11 @@ const Staff = () => {
     e.preventDefault();
 
     console.log(user);
-    console.log(barangay);
-    if (user.username.length == 0 || user.password.length == 0) {
+    if (
+      user.username.length == 0 ||
+      user.password.length == 0 ||
+      staffType.length == 0
+    ) {
       setError('Please fill in all fields');
       return;
     }
@@ -91,6 +94,7 @@ const Staff = () => {
       .post(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/staff.php`, {
         ...user,
         account_type: 'staff',
+        if_staff_type: staffType,
       })
       .then((res) => {
         console.log(res.data);
@@ -170,6 +174,10 @@ const Staff = () => {
       });
   };
 
+  const handleChangeStaff = (e: string) => {
+    setStaffType(e);
+  };
+
   return (
     <div className="h-screen pl-[20rem]">
       <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">
@@ -234,6 +242,18 @@ const Staff = () => {
               onChange={handleChange}
             />
 
+            <Select onValueChange={handleChangeStaff} required>
+              <SelectTrigger>
+                <SelectValue placeholder="Staff Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Resto">Resto Staff</SelectItem>
+                <SelectItem value="Driving Range">
+                  Driving Range Staff
+                </SelectItem>
+              </SelectContent>
+            </Select>
+
             {/* <div className="mb-4 flex justify-start">
               <div className="flex">
                 <Input
@@ -276,6 +296,7 @@ const Staff = () => {
                 <TableHead className="text-center">username</TableHead>
                 <TableHead className="text-center">Password</TableHead>
                 <TableHead className="text-center">Date Created</TableHead>
+                <TableHead className="text-center">Type</TableHead>
                 <TableHead className="text-center">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -318,6 +339,10 @@ const Staff = () => {
                     <TableCell className="text-center">
                       {moment(staff.created_at).format('LL')}
                     </TableCell>
+                    <TableCell className="text-center">
+                      {staff.if_staff_type}
+                    </TableCell>
+
                     <TableCell className="text-center">
                       <AlertDialog>
                         <AlertDialogTrigger>
