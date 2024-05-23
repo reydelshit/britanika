@@ -130,32 +130,32 @@ const Admin = () => {
                 key={index}
                 className="flex w-[20rem] flex-col rounded-xl border-2  p-2 text-black"
               >
-                <Dialog>
-                  <DialogTrigger className="my-1 w-[8rem] self-end">
-                    {' '}
-                    <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
-                      Add Stock
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="bg-opacity-65">
-                    <DialogHeader>
-                      <DialogTitle>Add Stock</DialogTitle>
-                      <DialogDescription>
-                        <h1 className="rounded-md bg-[#41644A] p-2 text-white">
-                          Current Stock: {prod.stocks}
-                        </h1>
-                        <Input
-                          onChange={(e) =>
-                            setQuantity(parseInt(e.target.value))
-                          }
-                          className="my-2"
-                          type="number"
-                          placeholder="Enter Stock"
-                        />
+                <div className="flex w-full justify-between">
+                  <Dialog>
+                    <DialogTrigger className="my-1 w-[8rem] self-end">
+                      {' '}
+                      <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
+                        Stock Limit
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-opacity-65">
+                      <DialogHeader>
+                        <DialogTitle>Add Stock</DialogTitle>
+                        <DialogDescription>
+                          <h1 className="rounded-md bg-[#41644A] p-2 text-white">
+                            Current Stock: {prod.stocks}
+                          </h1>
+                          <Input
+                            onChange={(e) =>
+                              setQuantity(parseInt(e.target.value))
+                            }
+                            className="my-2"
+                            type="number"
+                            placeholder="Enter Stock"
+                          />
 
-                        {error && <p className="text-red-500">{error}</p>}
+                          {error && <p className="text-red-500">{error}</p>}
 
-                        <DialogTrigger asChild>
                           <div className="flex w-full justify-end">
                             <Button
                               disabled={quantity === 0}
@@ -166,11 +166,50 @@ const Admin = () => {
                               Submit
                             </Button>
                           </div>
-                        </DialogTrigger>
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                  <Dialog>
+                    <DialogTrigger className="my-1 w-[8rem] self-end">
+                      {' '}
+                      <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
+                        Add Stock
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-opacity-65">
+                      <DialogHeader>
+                        <DialogTitle>Add Stock</DialogTitle>
+                        <DialogDescription>
+                          <h1 className="rounded-md bg-[#41644A] p-2 text-white">
+                            Current Stock: {prod.stocks}
+                          </h1>
+                          <Input
+                            onChange={(e) =>
+                              setQuantity(parseInt(e.target.value))
+                            }
+                            className="my-2"
+                            type="number"
+                            placeholder="Enter Stock"
+                          />
+
+                          {error && <p className="text-red-500">{error}</p>}
+
+                          <div className="flex w-full justify-end">
+                            <Button
+                              disabled={quantity === 0}
+                              type="submit"
+                              onClick={() => handleAddStock(prod.product_id)}
+                              className="my-4 "
+                            >
+                              Submit
+                            </Button>
+                          </div>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </div>
 
                 <img
                   className="h-[12rem] w-full object-cover"

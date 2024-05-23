@@ -49,7 +49,6 @@ type OrderDriving = {
 };
 
 const SalesReport = () => {
-  const [cartOrders, setCartOrders] = useState<OrderCarts[]>([]);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
   const [selectedDateFilter, setSelectedDateFilter] = useState(
     'Daily' as string,

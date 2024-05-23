@@ -16,15 +16,6 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-type OrderDriving = {
-  order_range_id: string;
-  customer_name: string;
-  range_id: string;
-  amount: number;
-  created_at: Date;
-  range_number: string;
-};
-
 type DrivingRange = {
   range_id: number;
   range_number: string;
@@ -36,10 +27,6 @@ type DrivingRange = {
 };
 
 const DrivingRangeAdmin = () => {
-  const [showCartForm, setShowCartForm] = useState(false);
-
-  const [drivingOrder, setDrivingOrders] = useState<OrderDriving[]>([]);
-
   const [drivingRange, setDrivingRange] = useState<DrivingRange[]>([]);
   const [showRangeForm, setShowRangeForm] = useState(false);
 

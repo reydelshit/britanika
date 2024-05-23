@@ -12,6 +12,7 @@ import ExpenseView from './pages/ExpenseView';
 import SalesReport from './pages/SalesReport';
 import Staff from './pages/Staff';
 import Stocks from './pages/Stocks';
+import Dashboard from './pages/Dashboard';
 
 type Notification = {
   notification_id: number;
@@ -76,6 +77,19 @@ export default function AdminRoutes() {
       )}
 
       <div className="fixed left-0 top-0 flex h-screen w-[20rem] flex-col items-start border-r-2 bg-[#41644A] p-4 pt-[5rem] text-start">
+        <Button
+          onClick={() => console.log(currentPath)}
+          className={`mb-2 flex h-[4rem] w-full gap-2 bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
+            currentPath == '/admin/dashboard'
+              ? ' rounded-md border-2 border-[#41644A] bg-white text-start text-[#41644A]'
+              : ''
+          }`}
+        >
+          <Link className="flex" to="/admin/dashboard">
+            {/* <RiAdminLine className="h-[1.5rem] w-[2rem]" /> */}
+            DASHBOARD
+          </Link>
+        </Button>
         <Button
           onClick={() => console.log(currentPath)}
           className={`mb-2 flex h-[4rem] w-full gap-2 bg-[#41644A] p-1 text-2xl font-bold hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A] ${
@@ -168,6 +182,7 @@ export default function AdminRoutes() {
       <div className="w-full justify-center px-4">
         <Routes>
           <Route path="/" index element={<Admin />} />
+          <Route path="/dashboard" index element={<Dashboard />} />
           <Route path="/carts" element={<Carts />} />
           <Route path="/stocks" element={<Stocks />} />
           <Route path="/sales-report" element={<SalesReport />} />
@@ -175,6 +190,7 @@ export default function AdminRoutes() {
           <Route path="/expense/:id" element={<ExpenseView />} />
 
           <Route path="/staffs" element={<Staff />} />
+
           {/* <Route path="/accountants" index element={<Accountants />} /> */}
         </Routes>
       </div>
