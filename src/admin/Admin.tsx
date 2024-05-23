@@ -33,15 +33,16 @@ type Product = {
   product_price: number;
   availability_status: string;
   stocks: number;
+  stock_limit: number;
 };
 
 const Admin = () => {
   const [product, setProduct] = useState<Product[]>([]);
   const [showProductForm, setShowProductForm] = useState(false);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState('');
   const [error, setError] = useState('');
-  const [open, setOpen] = useState(false);
 
+  const [stockLimit, setStockLimit] = useState('');
   const { toast } = useToast();
 
   const getALlProducts = () => {
@@ -84,14 +85,15 @@ const Admin = () => {
     getALlProducts();
   }, []);
 
-  const handleAddStock = (id: number) => {
-    if (quantity === 0) return setError('Please fill in all fields');
+  const handleAddStock = (id: number, type: string) => {
+    if (quantity.length === 0) return setError('Please fill in all fields');
 
     console.log(quantity, id);
     axios
       .put(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/stocks.php`, {
         product_id: id,
         stocks: quantity,
+        type: type,
       })
       .then((res) => {
         console.log(res.data);
@@ -108,7 +110,35 @@ const Admin = () => {
             description: 'Failed to add stock',
           });
         }
-        setOpen(false);
+        getALlProducts();
+      });
+  };
+
+  const handleeUpdateLimit = (id: number) => {
+    if (stockLimit.length === 0) return setError('Please fill in all fields');
+
+    console.log(stockLimit, id);
+    axios
+      .put(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/stock-limit.php`, {
+        product_id: id,
+        stock_limit: stockLimit,
+      })
+      .then((res) => {
+        console.log(res.data);
+
+        if (res.data.status === 'success') {
+          toast({
+            title: 'Stock Limit Updated Successfully',
+            description: 'Stock limit has been updated successfully',
+          });
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Failed to Update Stock Limit',
+            description: 'Failed to update stock limit',
+          });
+        }
+
         getALlProducts();
       });
   };
@@ -140,27 +170,29 @@ const Admin = () => {
                     </DialogTrigger>
                     <DialogContent className="bg-opacity-65">
                       <DialogHeader>
-                        <DialogTitle>Add Stock</DialogTitle>
+                        <DialogTitle>Enter Stock Limit</DialogTitle>
                         <DialogDescription>
                           <h1 className="rounded-md bg-[#41644A] p-2 text-white">
-                            Current Stock: {prod.stocks}
+                            Current Stock Limit: {prod.stock_limit}
                           </h1>
                           <Input
                             onChange={(e) =>
-                              setQuantity(parseInt(e.target.value))
+                              setStockLimit(String(e.target.value))
                             }
                             className="my-2"
                             type="number"
-                            placeholder="Enter Stock"
+                            placeholder="Enter Stock Limit"
                           />
 
                           {error && <p className="text-red-500">{error}</p>}
 
                           <div className="flex w-full justify-end">
                             <Button
-                              disabled={quantity === 0}
+                              disabled={stockLimit.length === 0 ? true : false}
                               type="submit"
-                              onClick={() => handleAddStock(prod.product_id)}
+                              onClick={() =>
+                                handleeUpdateLimit(prod.product_id)
+                              }
                               className="my-4 "
                             >
                               Submit
@@ -186,7 +218,7 @@ const Admin = () => {
                           </h1>
                           <Input
                             onChange={(e) =>
-                              setQuantity(parseInt(e.target.value))
+                              setQuantity(String(e.target.value))
                             }
                             className="my-2"
                             type="number"
@@ -197,9 +229,11 @@ const Admin = () => {
 
                           <div className="flex w-full justify-end">
                             <Button
-                              disabled={quantity === 0}
+                              disabled={quantity.length === 0 ? true : false}
                               type="submit"
-                              onClick={() => handleAddStock(prod.product_id)}
+                              onClick={() =>
+                                handleAddStock(prod.product_id, 'In')
+                              }
                               className="my-4 "
                             >
                               Submit
@@ -219,7 +253,11 @@ const Admin = () => {
                 <div className="my-2 flex items-center justify-between">
                   <div className="flex flex-col">
                     <h1 className="font-semibold">{prod.product_name}</h1>
-                    <h1 className="font-semibold">Stock: {prod.stocks}</h1>
+                    <h1
+                      className={`rounded-md p-1 font-semibold ${prod.stock_limit > prod.stocks ? 'border-b-4 border-red-500' : 'border-b-4 border-green-500'}`}
+                    >
+                      Stock: {prod.stocks}
+                    </h1>
                   </div>
 
                   <span

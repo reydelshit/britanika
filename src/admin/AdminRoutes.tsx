@@ -62,7 +62,7 @@ export default function AdminRoutes() {
             notifications.map((not, index) => (
               <div
                 key={index}
-                className="z-50 flex items-center justify-between gap-2 rounded-xl border-b-2 bg-[#41644A] p-2 text-sm  text-white"
+                className="z-50 mb-2 flex items-center justify-between gap-2 rounded-xl border-b-2 bg-[#41644A] p-2 text-sm  text-white"
               >
                 <p className="w-[70%] break-words ">
                   {not.notification_message}
