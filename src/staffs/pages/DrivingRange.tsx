@@ -57,6 +57,7 @@ export default function DrivingRange() {
       .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/order-range.php`)
       .then((res) => {
         setDrivingOrders(res.data);
+        console.log(res.data);
       });
   };
 

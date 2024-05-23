@@ -167,32 +167,34 @@ const Dashboard = () => {
 
   return (
     <div className="h-screen w-full pl-[20rem]">
-      <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">DASHBOARDS</h1>
+      <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">DASHBOARD</h1>
       <div>
         <div className="flex gap-4">
-          <div className="relative h-[12rem] w-full rounded-xl border-2 bg-[#41644A] p-4 text-white">
-            <h1 className="text-4xl font-bold ">Total Number of Products</h1>
+          <div className="relative h-[10rem] w-full rounded-xl border-2 bg-[#41644A] p-4 text-white">
+            <h1 className="text-2xl font-semibold ">
+              Total Number of Products
+            </h1>
             <p className="absolute bottom-4 right-4 text-end text-6xl font-bold">
               {product.length}
             </p>
           </div>
 
-          <div className="relative h-[12rem] w-full rounded-xl border-2 bg-[#41644A] p-4 text-white">
-            <h1 className="text-4xl font-bold ">Total Number of Cart</h1>
+          <div className="relative h-[10rem] w-full rounded-xl border-2 bg-[#41644A] p-4 text-white">
+            <h1 className="text-2xl font-semibold  ">Total Number of Cart</h1>
             <p className="absolute bottom-4 right-4 text-end text-6xl font-bold">
               {drivingRange.length}
             </p>
           </div>
 
-          <div className="relative h-[12rem] w-full rounded-xl border-2 bg-[#41644A] p-4 text-white">
-            <h1 className="text-4xl font-bold ">Total No. of Orders</h1>
+          <div className="relative h-[10rem] w-full rounded-xl border-2 bg-[#41644A] p-4 text-white">
+            <h1 className="ld text-2xl font-semibold ">Total No. of Orders</h1>
             <p className="absolute bottom-4 right-4 text-end text-6xl font-bold">
               {allOrders.length + drivingOrder.length}
             </p>
           </div>
 
-          <div className="relative h-[12rem] w-full rounded-xl border-2 bg-[#41644A] p-4 text-white">
-            <h1 className="text-4xl font-bold ">Total Daily Sales</h1>
+          <div className="relative h-[10rem] w-full rounded-xl border-2 bg-[#41644A] p-4 text-white">
+            <h1 className="text-2xl font-semibold  ">Total Daily Sales</h1>
             <p className="absolute bottom-4 right-4 text-end text-6xl font-bold">
               ₱{' '}
               {filteredOrders.reduce((acc, curr) => acc + curr.amount, 0) +

@@ -53,6 +53,7 @@ type Orders = {
   amount: number;
   created_at: string;
   status: string;
+  // quantity: number;
 };
 
 type Cart = {
@@ -321,7 +322,10 @@ export default function Resto() {
 
         <Button
           className="my-4 bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]"
-          onClick={() => setShowOrders(true)}
+          onClick={() => {
+            getALlOrders();
+            setShowOrders(true);
+          }}
         >
           SHOW ORDERS
         </Button>
@@ -620,10 +624,10 @@ export default function Resto() {
                     <TableHead className="text-center">ID</TableHead>
                     <TableHead className="text-center">Customer Name</TableHead>
                     <TableHead className="text-center">Amount</TableHead>
-                    <TableHead className="text-center">Quantity</TableHead>
+                    <TableHead className="text-center">Date</TableHead>
 
-                    <TableHead className="text-center">Date Created</TableHead>
                     <TableHead className="text-center">Status</TableHead>
+                    <TableHead className="text-center"></TableHead>
                     <TableHead className="text-center"></TableHead>
                   </TableRow>
                 </TableHeader>

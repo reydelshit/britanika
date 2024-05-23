@@ -137,7 +137,7 @@ export default function AddRangeStaff({
 
             <Select required value={selectedRange} onValueChange={handlerange}>
               <SelectTrigger className="h-[5rem]">
-                <SelectValue placeholder="ranges.." />
+                <SelectValue placeholder="Available carts.." />
               </SelectTrigger>
               <SelectContent>
                 <Input
