@@ -191,7 +191,7 @@ export default function AddRangeStaff({
             <Input className="mb-2" readOnly value={price > 0 ? price : ''} />
           </div>
 
-          <div className="w-full">
+          {/* <div className="w-full">
             <Label className="mb-2 text-start">Amount</Label>
             <Input
               name="amount"
@@ -209,7 +209,7 @@ export default function AddRangeStaff({
               required
               value={change > 0 ? change : ''}
             />
-          </div>
+          </div> */}
 
           <span className="text-red-500">{error}</span>
 

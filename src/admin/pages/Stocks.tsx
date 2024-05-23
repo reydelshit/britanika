@@ -14,8 +14,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+
 import axios from 'axios';
 import moment from 'moment';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 
 type Stock = {
   stock_id: number;
@@ -28,9 +41,35 @@ type Stock = {
   product_image: string;
 };
 
+type Product = {
+  product_id: number;
+  product_name: string;
+  product_image: string;
+  product_price: number;
+  availability_status: string;
+  stocks: number;
+};
+
 const Stocks = () => {
+  const [quantity, setQuantity] = useState(0);
+  const [error, setError] = useState('');
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [selectedStockFilter, setSelectedStockFilter] = useState('All');
+  const [product, setProduct] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState('');
+
+  const [open, setOpen] = useState(false);
+
+  const { toast } = useToast();
+
+  const getALlProducts = () => {
+    axios
+      .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/product.php`)
+      .then((res) => {
+        setProduct(res.data);
+      });
+  };
+
   const getALlStocks = () => {
     axios
       .get(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/stocks.php`)
@@ -41,12 +80,49 @@ const Stocks = () => {
 
   useEffect(() => {
     getALlStocks();
+    getALlProducts();
   }, []);
 
   const handleFilterStocks = (value: string) => {
     setSelectedStockFilter(value);
   };
 
+  const handleSelectProduct = (value: string) => {
+    // extract the product id from the value and set it to selected product
+    const productId = value.split('-')[1];
+    setSelectedProduct(productId);
+  };
+
+  const handleStock = (type: string) => {
+    if (quantity === 0) return setError('Please fill in all fields');
+
+    console.log(quantity);
+    axios
+      .put(`${import.meta.env.VITE_BRITANIKA_LOCAL_HOST}/stocks.php`, {
+        product_id: selectedProduct,
+        stocks: quantity,
+        type: type,
+      })
+      .then((res) => {
+        console.log(res.data);
+
+        if (res.data.status === 'success') {
+          toast({
+            title: `Stock  ${type} Successfully`,
+            description: `Stock ${type} has been added successfully`,
+          });
+        } else {
+          toast({
+            variant: 'destructive',
+            title: `Failed Stock  ${type} Successfully`,
+            description: `Failed Stock ${type} has been added successfully`,
+          });
+        }
+        setOpen(false);
+        getALlStocks();
+        getALlProducts();
+      });
+  };
   return (
     <div className="h-screen pl-[20rem]">
       <h1 className="my-4 text-[4rem] font-bold text-[#41644A]">
@@ -54,7 +130,111 @@ const Stocks = () => {
       </h1>
 
       <div className="mt-[1rem] w-full">
-        <div className="my-4 flex justify-end gap-4 px-4">
+        <div className="my-4 flex justify-between gap-4 px-4">
+          <div className="my-4 flex ">
+            <Dialog>
+              <DialogTrigger className="w-[8rem] self-end">
+                {' '}
+                <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
+                  Stock In
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-opacity-65">
+                <DialogHeader>
+                  <DialogTitle className="my-4">Stock In</DialogTitle>
+                  <DialogDescription>
+                    <Select onValueChange={handleSelectProduct}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Products" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {product.map((prod, index) => (
+                          <SelectItem
+                            key={index}
+                            value={prod.product_name + '-' + prod.product_id}
+                          >
+                            {prod.product_name} - {prod.stocks}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Input
+                      onChange={(e) => setQuantity(parseInt(e.target.value))}
+                      className="my-2"
+                      type="number"
+                      placeholder="Enter Stock"
+                    />
+
+                    {error && <p className="text-red-500">{error}</p>}
+
+                    <DialogTrigger>
+                      <div className="flex w-full justify-end">
+                        <Button
+                          disabled={quantity === 0}
+                          type="submit"
+                          onClick={() => handleStock('In')}
+                          className="my-4 "
+                        >
+                          Submit
+                        </Button>
+                      </div>
+                    </DialogTrigger>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+            <Dialog>
+              <DialogTrigger className="w-[8rem] self-end">
+                {' '}
+                <Button className="bg-[#41644A] text-white hover:border-2 hover:border-[#41644A] hover:bg-white hover:text-[#41644A]">
+                  Stock Out
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-opacity-65">
+                <DialogHeader>
+                  <DialogTitle className="my-4">Stock Out</DialogTitle>
+                  <DialogDescription>
+                    <Select onValueChange={handleSelectProduct}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Products" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {product.map((prod, index) => (
+                          <SelectItem
+                            key={index}
+                            value={prod.product_name + '-' + prod.product_id}
+                          >
+                            {prod.product_name} - {prod.stocks}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Input
+                      onChange={(e) => setQuantity(parseInt(e.target.value))}
+                      className="my-2"
+                      type="number"
+                      placeholder="Enter Stock"
+                    />
+
+                    {error && <p className="text-red-500">{error}</p>}
+
+                    <DialogTrigger>
+                      <div className="flex w-full justify-end">
+                        <Button
+                          disabled={quantity === 0}
+                          type="submit"
+                          onClick={() => handleStock('Out')}
+                          className="my-4 "
+                        >
+                          Submit
+                        </Button>
+                      </div>
+                    </DialogTrigger>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          </div>
           <Select onValueChange={handleFilterStocks}>
             <SelectTrigger className=" w-[15rem] ">
               <SelectValue placeholder="Filter" />
@@ -67,6 +247,7 @@ const Stocks = () => {
             </SelectContent>
           </Select>
         </div>
+
         <Table className="mx-auto w-[100%] border-2 bg-white">
           <TableHeader>
             <TableRow>
