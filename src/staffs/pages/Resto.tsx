@@ -71,7 +71,7 @@ export default function Resto() {
   const [allOrders, setAllOrders] = useState<Orders[]>([]);
   const [quantityIndex, setQuantityIndex] = useState(0);
   const [showOrders, setShowOrders] = useState(false);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [customerName, setCustomerName] = useState('');
   const user_id = localStorage.getItem('user_id_britanika');
   const [selectedDateFilter, setSelectedDateFilter] = useState('Daily');
